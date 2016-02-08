@@ -3,10 +3,9 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 22
     buildToolsVersion "23.0.2"
-
     defaultConfig {
         applicationId "teamjamin.ffs"
-        minSdkVersion 14
+        minSdkVersion 17
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
@@ -17,6 +16,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    productFlavors {
+    }
+}
+repositories {
+    mavenCentral()
 }
 
 dependencies {
@@ -24,5 +28,6 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:22.2.1'
     compile 'com.android.support:design:22.2.1'
+    compile 'com.facebook.android:facebook-android-sdk:4.6.0'
     compile files('libs/butterknife-7.0.1.jar')
 }

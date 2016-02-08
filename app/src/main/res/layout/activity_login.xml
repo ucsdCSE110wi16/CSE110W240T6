@@ -70,6 +70,16 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="18dp" />
 
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/login_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:gravity="center"/>
+
+        <!--
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
@@ -98,7 +108,9 @@
                 android:layout_toLeftOf="@+id/facebook_login"
                 android:layout_toStartOf="@+id/facebook_login"
                 android:layout_marginRight="6dp" />
+
         </RelativeLayout>
+        -->
 
         <TextView
             android:id="@+id/guest_login"
