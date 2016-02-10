@@ -205,7 +205,7 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:id="@+id/imageButton12"
+            android:id="@+id/homeBtn"
             android:background="#091a2d"
             android:src="@mipmap/home"
             android:layout_weight="0.20"
@@ -214,7 +214,7 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/imageButton13"
+            android:id="@+id/chatBtn"
             android:background="#091a2d"
             android:src="@mipmap/chat"
             android:layout_weight="0.20" />
@@ -222,7 +222,7 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/imageButton14"
+            android:id="@+id/cartBtn"
             android:layout_weight="0.20"
             android:adjustViewBounds="true"
             android:background="#091a2d"
@@ -232,7 +232,7 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/imageButton15"
+            android:id="@+id/sellBtn"
             android:layout_weight="0.20"
             android:background="#091a2d"
             android:src="@mipmap/sell"
@@ -241,7 +241,7 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/imageButton11"
+            android:id="@+id/settingsBtn"
             android:layout_weight="0.20"
             android:background="#091a2d"
             android:longClickable="false"
