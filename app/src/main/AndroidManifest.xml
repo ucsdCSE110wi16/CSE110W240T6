@@ -22,6 +22,10 @@
 
         <activity android:name="teamjamin.ffs.LoginActivity" android:theme="@style/AppTheme.Dark" />
         <activity android:name="teamjamin.ffs.SignupActivity" android:theme="@style/AppTheme.Dark" />
+        <activity android:name="teamjamin.ffs.CartActivity" android:theme="@style/AppTheme.Dark" />
+        <activity android:name="teamjamin.ffs.SellActivity" android:theme="@style/AppTheme.Dark" />
+        <activity android:name="teamjamin.ffs.ChatActivity" android:theme="@style/AppTheme.Dark" />
+        <activity android:name="teamjamin.ffs.SettingsActivity" android:theme="@style/AppTheme.Dark" />
 
     </application>
 

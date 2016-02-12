@@ -24,7 +24,7 @@ public class LoginActivity extends AppCompatActivity {
     @Bind(R.id.btn_login) Button _loginButton;
     @Bind(R.id.link_signup) TextView _signupLink;
     @Bind(R.id.guest_login) TextView _guestLogin;
-    @Bind(R.id.facebook_login) TextView _facebookLogin;
+    //@Bind(R.id.facebook_login) TextView _facebookLogin;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // Set up facebook login button (might have to change later with facebook integration
         // By default, this fills in the info with guest info
-        _facebookLogin.setOnClickListener(new View.OnClickListener() {
+        /*_facebookLogin.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -82,7 +82,7 @@ public class LoginActivity extends AppCompatActivity {
 //                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 //                startActivityForResult(intent, REQUEST_GUEST_LOGIN);
             }
-        });
+        });*/
     }
 
     /**

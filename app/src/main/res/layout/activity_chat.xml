@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="434dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Message your sellers"
+        android:id="@+id/textView2"
+        android:layout_gravity="center_horizontal"
+        android:background="#091a2d"
+        android:gravity="center_vertical|center_horizontal"
+        android:textColor="@color/primary_dark" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="308dp"
+            android:layout_height="84dp"
+            android:text="New Text"
+            android:id="@+id/textView6" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="SEND"
+            android:id="@+id/button" />
+    </LinearLayout>
+</LinearLayout>
