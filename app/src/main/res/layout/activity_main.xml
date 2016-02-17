@@ -9,19 +9,27 @@
     android:orientation="vertical"
     android:background="#091a2d">
 
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar">
+    </include>
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:weightSum="1">
 
+
         <ImageButton
             android:layout_width="60dp"
             android:layout_height="match_parent"
-            android:id="@+id/imageButton"
+            android:id="@+id/moreButton"
             android:src="@mipmap/more"
             android:background="#091a2d"
             android:layout_weight="0.01"
+            android:onClick="toggleMenu"
+            android:text="More"
             android:contentDescription=""
             android:tint="#faf7f7" />
 
@@ -31,13 +39,20 @@
             android:layout_height="wrap_content"
             android:layout_weight="1">
 
-            <TextView
+
+            <SearchView
                 android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/searchView"
+                android:visibility="visible"
+                android:transitionGroup="false" />
+
+            <TextView
+                android:layout_width="178dp"
                 android:layout_height="60dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="HOME"
                 android:id="@+id/textView3"
-                android:layout_weight="0.55"
                 android:gravity="center|center_vertical"
                 android:textStyle="bold"
                 android:background="#091a2d"
@@ -117,7 +132,7 @@
         android:layout_marginRight="5dp">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="NEW ITEMS"
@@ -128,8 +143,13 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:weightSum="1">
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/iclicker"
+                android:layout_weight="0.33" />
 
             <ImageButton
                 android:layout_width="wrap_content"
@@ -143,11 +163,6 @@
                 android:id="@+id/imageButton3"
                 android:layout_weight="0.33" />
 
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:id="@+id/imageButton4"
-                android:layout_weight="0.33" />
         </LinearLayout>
 
     </LinearLayout>
@@ -155,7 +170,7 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="140dp"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp" >
@@ -200,7 +215,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:weightSum="1"
-        android:layout_marginTop="15dp">
+        android:layout_marginTop="15dp"
+        android:layout_gravity="bottom"
+        android:gravity="bottom"
+        android:foregroundGravity="bottom">
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -209,7 +227,8 @@
             android:background="#091a2d"
             android:src="@mipmap/home"
             android:layout_weight="0.20"
-            android:tint="#fbf7f7" />
+            android:tint="#fbf7f7"
+            android:layout_gravity="bottom" />
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -217,7 +236,8 @@
             android:id="@+id/chatBtn"
             android:background="#091a2d"
             android:src="@mipmap/chat"
-            android:layout_weight="0.20" />
+            android:layout_weight="0.20"
+            android:layout_gravity="bottom" />
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -227,7 +247,8 @@
             android:adjustViewBounds="true"
             android:background="#091a2d"
             android:src="@mipmap/cart"
-            android:tint="#fdfbfb" />
+            android:tint="#fdfbfb"
+            android:layout_gravity="bottom" />
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -236,7 +257,8 @@
             android:layout_weight="0.20"
             android:background="#091a2d"
             android:src="@mipmap/sell"
-            android:tint="#fef9f9" />
+            android:tint="#fef9f9"
+            android:layout_gravity="bottom" />
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -246,7 +268,8 @@
             android:background="#091a2d"
             android:longClickable="false"
             android:tint="#a09393"
-            android:src="@mipmap/settings" />
+            android:src="@mipmap/settings"
+            android:layout_gravity="bottom" />
 
     </LinearLayout>
 
@@ -255,7 +278,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:weightSum="1"
-        android:layout_weight="0.20">
+        android:layout_weight="0.20"
+        android:layout_gravity="bottom"
+        android:gravity="bottom">
 
         <TextView
             android:layout_width="wrap_content"

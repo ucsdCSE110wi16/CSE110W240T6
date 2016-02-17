@@ -1,6 +1,11 @@
 <resources>
-    <string name="app_name">FFS</string>
+    <string name="app_name">Free&amp;ForSale</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="search_label">Search</string>
+    <string name="search_hint">Hint</string>
+    <string name="search">Settings</string>
+    <string name="settings_description">SettingsDescription</string>
+
 </resources>
