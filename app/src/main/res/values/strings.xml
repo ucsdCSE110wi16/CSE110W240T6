@@ -7,5 +7,7 @@
     <string name="search_hint">Hint</string>
     <string name="search">Settings</string>
     <string name="settings_description">SettingsDescription</string>
+    <string name="send">SEND</string>
+
 
 </resources>
