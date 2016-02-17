@@ -4,16 +4,268 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".LoginActivity"
-    tools:showIn="@layout/activity_login">
+    tools:context=".MainActivity"
+    tools:showIn="@layout/activity_main"
+    android:id="@+id/activity_main_container"
+    android:background="@color/primary_dark">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout android:id="@+id/LinearLayout02" android:layout_height="wrap_content" android:layout_width="match_parent"
+        android:layout_marginBottom="0dp">
+        <Button
+            android:id="@+id/Button04"
+            android:text="Appliances"
+            android:layout_width="fill_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@color/pink"
+            android:textColor="@color/white" />
+        <Button
+            android:id="@+id/Button05"
+            android:text="Electronics"
+            android:layout_width="fill_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@color/pink"
+            android:textColor="@color/white" />
+        <Button
+            android:id="@+id/Button06"
+            android:text="Furniture"
+            android:layout_width="fill_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@color/pink"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="NEW ITEMS"
+            android:id="@+id/textView"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="15dp"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="20dp" />
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="30dp"
+            android:scrollbars="none"
+            android:layout_margin="20dp">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView"
+                    android:src="@drawable/thing"
+                    android:layout_marginRight="8dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView2"
+                    android:src="@drawable/thing"
+                    android:layout_marginRight="8dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView3"
+                    android:src="@drawable/thing"
+                    android:layout_marginRight="8dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView4"
+                    android:src="@drawable/thing"
+                    android:layout_marginRight="8dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView5"
+                    android:src="@drawable/thing"
+                    android:layout_marginRight="8dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView6"
+                    android:src="@drawable/thing"
+                    android:layout_marginRight="8dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView7"
+                    android:src="@drawable/thing"
+                    android:layout_marginRight="8dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView8"
+                    android:src="@drawable/thing"
+                    android:layout_marginRight="8dp" />
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="POPULAR ITEMS"
+            android:id="@+id/textView2"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="15dp"
+            android:layout_margin="20dp"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/horizontalScrollView"
+            android:scrollbars="none"
+            android:layout_marginBottom="30dp"
+            android:layout_margin="20dp">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView9"
+                    android:src="@drawable/thing"
+                    android:layout_marginRight="8dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView10"
+                    android:src="@drawable/thing"
+                    android:layout_marginRight="8dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView11"
+                    android:src="@drawable/thing"
+                    android:layout_marginRight="8dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView12"
+                    android:src="@drawable/thing"
+                    android:layout_marginRight="8dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView13"
+                    android:src="@drawable/thing"
+                    android:layout_marginRight="8dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView14"
+                    android:src="@drawable/thing"
+                    android:layout_marginRight="8dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView15"
+                    android:src="@drawable/thing"
+                    android:layout_marginRight="8dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView16"
+                    android:src="@drawable/thing"
+                    android:layout_marginRight="8dp" />
+            </LinearLayout>
+        </HorizontalScrollView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/linearLayout2"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:background="@color/pink">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:id="@+id/homeBtn"
+            android:src="@drawable/home"
+            android:layout_weight="0.20" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/chatBtn"
+            android:src="@drawable/chat"
+            android:layout_weight="0.20" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/cartBtn"
+            android:layout_weight="0.20"
+            android:adjustViewBounds="true"
+            android:src="@drawable/cart"
+            android:tint="#fdfbfb" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/sellBtn"
+            android:layout_weight="0.20"
+            android:src="@drawable/sell"
+            android:tint="#fef9f9" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/settingsBtn"
+            android:layout_weight="0.20"
+            android:longClickable="false"
+            android:src="@drawable/settings" />
+    </LinearLayout>
 </RelativeLayout>

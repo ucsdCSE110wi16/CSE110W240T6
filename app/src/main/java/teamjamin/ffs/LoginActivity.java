@@ -1,29 +1,34 @@
 package teamjamin.ffs;
+
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-
-import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import butterknife.ButterKnife;
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
     private static final int REQUEST_GUEST_LOGIN = 0;
 
-    @Bind(R.id.input_email) EditText _emailText;
-    @Bind(R.id.input_password) EditText _passwordText;
-    @Bind(R.id.btn_login) Button _loginButton;
-    @Bind(R.id.link_signup) TextView _signupLink;
-    @Bind(R.id.guest_login) TextView _guestLogin;
+    @Bind(R.id.input_email)
+    EditText _emailText;
+    @Bind(R.id.input_password)
+    EditText _passwordText;
+    @Bind(R.id.btn_login)
+    Button _loginButton;
+    @Bind(R.id.link_signup)
+    TextView _signupLink;
+    @Bind(R.id.guest_login)
+    TextView _guestLogin;
     //@Bind(R.id.facebook_login) TextView _facebookLogin;
 
     @Override
@@ -60,10 +65,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Start MainActivity
                 // will loop back to login screen
-                _emailText.setText("guest@guest.com");
-                _passwordText.setText("password");
-                Log.d(TAG, "Guest Login");
-                login();
+                Config.GUEST_LOGIN = true;
+                onLoginSuccess();
             }
         });
 

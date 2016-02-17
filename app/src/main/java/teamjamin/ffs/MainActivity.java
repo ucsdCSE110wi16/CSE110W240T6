@@ -1,68 +1,50 @@
 package teamjamin.ffs;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.view.KeyEvent;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.support.v7.widget.Toolbar;
-import android.widget.TextView;
+import android.widget.Button;
+import android.widget.ImageView;
 
-/**
- * Created by Aaron on 1/24/2016.
- * Jenny
- */
+public class MainActivity extends BaseActivity {
 
-public class MainActivity extends AppCompatActivity {
-    private Toolbar mToolbar;
-    ImageButton imgBtn_home, imgBtn_chat, imgBtn_cart, imgBtn_sell, imgBtn_settings, imgBtn_click;
+    ImageView imgBtn_home, imgBtn_chat, imgBtn_cart, imgBtn_sell, imgBtn_settings;
 
-    private MenuItem mSearchAction;
-    private boolean isSearchOpened = false;
-    private EditText edtSeach;
-
+    private View rootView;
+    Button btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        rootView = findViewById(R.id.activity_main_container);
 
-        // Right now, Login Activity launches by default.
-        // Doesn't remember user account info on every launch.
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
+        //Set nav drawer selected to first item in list
+        mNavigationView.getMenu().getItem(0).setChecked(true);
 
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
+        if(!Config.GUEST_LOGIN) {
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intent);
+        }
 
-        imgBtn_home = (ImageButton)findViewById(R.id.homeBtn);
-        imgBtn_chat = (ImageButton)findViewById(R.id.chatBtn);
-        imgBtn_cart = (ImageButton)findViewById(R.id.cartBtn);
-        imgBtn_sell = (ImageButton)findViewById(R.id.sellBtn);
-        imgBtn_settings = (ImageButton)findViewById(R.id.settingsBtn);
-        imgBtn_click = (ImageButton)findViewById(R.id.iclicker);
+        imgBtn_home = (ImageView)findViewById(R.id.homeBtn);
+        imgBtn_chat = (ImageView)findViewById(R.id.chatBtn);
+        imgBtn_cart = (ImageView)findViewById(R.id.cartBtn);
+        imgBtn_sell = (ImageView)findViewById(R.id.sellBtn);
+        imgBtn_settings = (ImageView)findViewById(R.id.settingsBtn);
 
 
-        imgBtn_click.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, DetailActivity.class);
-                startActivity(intent);
-            }
-        });
         imgBtn_home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, MainActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(MainActivity.this, MainActivity.class);
+//                startActivity(intent);
+                return;
             }
         });
 
@@ -97,99 +79,44 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         return true;
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        mSearchAction = menu.findItem(R.id.action_search);
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        switch (id) {
-            case R.id.action_settings:
-                return true;
-            case R.id.action_search:
-                handleMenuSearch();
-                return true;
+        if(id == R.id.action_profile) {
+            //Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            //startActivity(intent);
+            return true;
         }
 
+        if (id == R.id.action_settings) {
+            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(intent);
+            return true;
+        }
+
+        if(id == R.id.action_logout) {
+            Config.GUEST_LOGIN = false;
+            Intent intent = new Intent(MainActivity.this, MainActivity.class);
+            startActivity(intent);
+            return true;
+        }
         return super.onOptionsItemSelected(item);
-    }
-
-    protected void handleMenuSearch(){
-        ActionBar action = getSupportActionBar(); //get the actionbar
-
-        if(isSearchOpened){ //test if the search is open
-
-            action.setDisplayShowCustomEnabled(false); //disable a custom view inside the actionbar
-            action.setDisplayShowTitleEnabled(true); //show the title in the action bar
-
-            //hides the keyboard
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(edtSeach.getWindowToken(), 0);
-
-            //add the search icon in the action bar
-            mSearchAction.setIcon(getResources().getDrawable(R.mipmap.search));
-
-            isSearchOpened = false;
-        } else { //open the search entry
-
-            action.setDisplayShowCustomEnabled(true); //enable it to display a
-            // custom view in the action bar.
-            action.setCustomView(R.layout.search);//add the custom view
-            action.setDisplayShowTitleEnabled(false); //hide the title
-
-            edtSeach = (EditText)action.getCustomView().findViewById(R.id.edtSearch); //the text editor
-
-            //this is a listener to do a search when the user clicks on search button
-            edtSeach.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-                @Override
-                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                    if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                        doSearch();
-                        return true;
-                    }
-                    return false;
-                }
-            });
-
-
-            edtSeach.requestFocus();
-
-            //open the keyboard focused in the edtSearch
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.showSoftInput(edtSeach, InputMethodManager.SHOW_IMPLICIT);
-
-
-            //add the close icon
-            mSearchAction.setIcon(getResources().getDrawable(R.mipmap.close));
-            isSearchOpened = true;
-        }
-
-    }
-
-    @Override
-    public void onBackPressed() {
-        if(isSearchOpened) {
-            handleMenuSearch();
-            return;
-        }
-        super.onBackPressed();
-    }
-
-    private void doSearch() {
-        Intent intent = new Intent(this, CartActivity.class);
-        startActivity(intent);
     }
 }
