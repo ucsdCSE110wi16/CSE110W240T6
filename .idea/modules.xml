@@ -3,7 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CSE110W240T6.iml" filepath="$PROJECT_DIR$/CSE110W240T6.iml" />
+<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/CSE110W240T6 Master.iml" filepath="$PROJECT_DIR$/CSE110W240T6 Master.iml" />
+=======
+>>>>>>> origin/master
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
