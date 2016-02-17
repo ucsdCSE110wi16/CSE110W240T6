@@ -1,347 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/LinearLayout1"
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:baselineAligned="false"
-    android:orientation="vertical"
-    android:background="#091a2d">
+    tools:openDrawer="start"
+    tools:context=".MainActivity">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar">
-    </include>
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <android.support.design.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="1">
+        android:layout_height="fill_parent"
+        android:fitsSystemWindows="true">
 
 
-        <ImageButton
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:id="@+id/moreButton"
-            android:src="@mipmap/more"
-            android:background="#091a2d"
-            android:layout_weight="0.01"
-            android:onClick="toggleMenu"
-            android:text="More"
-            android:contentDescription=""
-            android:tint="#faf7f7" />
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
+        <include layout="@layout/global_app_bar_layout" />
+
+        <!-- Content -->
+        <include layout="@layout/content_main" />
 
 
-            <SearchView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:id="@+id/searchView"
-                android:visibility="visible"
-                android:transitionGroup="false" />
 
-            <TextView
-                android:layout_width="178dp"
-                android:layout_height="60dp"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="HOME"
-                android:id="@+id/textView3"
-                android:gravity="center|center_vertical"
-                android:textStyle="bold"
-                android:background="#091a2d"
-                android:textColor="#cc4616" />
+    </android.support.design.widget.CoordinatorLayout>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
-                android:id="@+id/imageView2"
-                android:layout_weight="0.1"
-                android:background="#091a2d"
-                android:src="@mipmap/user"
-                android:contentDescription=""
-                android:tint="#f9f7f7" />
-        </LinearLayout>
+    <!-- Nav mDrawerLayout -->
+    <include layout="@layout/global_navdrawer" />
 
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_marginTop="5dp"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#cc4616"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp">
-
-        <Button
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Appliances"
-            android:id="@+id/button1"
-            android:layout_weight="0.33"
-            android:textColor="#cc4616"
-            android:background="#091a2d"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="2dp"
-            android:layout_margin="2dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="2dp" />
-
-        <Button
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Electronics"
-            android:id="@+id/button2"
-            android:layout_weight="0.33"
-            android:textColor="#cc4616"
-            android:background="#091a2d"
-            android:layout_marginRight="2dp"
-            android:layout_marginLeft="2dp"
-            android:layout_margin="2dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="2dp" />
-
-        <Button
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Furniture"
-            android:id="@+id/button3"
-            android:layout_weight="0.33"
-            android:textColor="#cc4616"
-            android:background="#091a2d"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="2dp"
-            android:layout_margin="2dp"
-            android:layout_marginBottom="2dp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="140dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="NEW ITEMS"
-            android:id="@+id/textView4"
-            android:textColor="#cc4616"
-            android:layout_marginLeft="10dp" />
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:id="@+id/iclicker"
-                android:layout_weight="0.33" />
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:id="@+id/imageButton2"
-                android:layout_weight="0.33" />
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:id="@+id/imageButton3"
-                android:layout_weight="0.33" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="140dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp" >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="POPULAR ITEMS"
-            android:id="@+id/textView5"
-            android:textColor="#cc4616"
-            android:layout_marginLeft="10dp" />
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:weightSum="1" >
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:id="@+id/imageButton5"
-                android:layout_weight="0.33" />
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:id="@+id/imageButton6"
-                android:layout_weight="0.33" />
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:id="@+id/imageButton7"
-                android:layout_weight="0.33" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="1"
-        android:layout_marginTop="15dp"
-        android:layout_gravity="bottom"
-        android:gravity="bottom"
-        android:foregroundGravity="bottom">
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:id="@+id/homeBtn"
-            android:background="#091a2d"
-            android:src="@mipmap/home"
-            android:layout_weight="0.20"
-            android:tint="#fbf7f7"
-            android:layout_gravity="bottom" />
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/chatBtn"
-            android:background="#091a2d"
-            android:src="@mipmap/chat"
-            android:layout_weight="0.20"
-            android:layout_gravity="bottom" />
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/cartBtn"
-            android:layout_weight="0.20"
-            android:adjustViewBounds="true"
-            android:background="#091a2d"
-            android:src="@mipmap/cart"
-            android:tint="#fdfbfb"
-            android:layout_gravity="bottom" />
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/sellBtn"
-            android:layout_weight="0.20"
-            android:background="#091a2d"
-            android:src="@mipmap/sell"
-            android:tint="#fef9f9"
-            android:layout_gravity="bottom" />
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/settingsBtn"
-            android:layout_weight="0.20"
-            android:background="#091a2d"
-            android:longClickable="false"
-            android:tint="#a09393"
-            android:src="@mipmap/settings"
-            android:layout_gravity="bottom" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:weightSum="1"
-        android:layout_weight="0.20"
-        android:layout_gravity="bottom"
-        android:gravity="bottom">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Home"
-            android:id="@+id/textView7"
-            android:textAlignment="center"
-            android:textColor="#ffffff"
-            android:gravity="center_vertical|center_horizontal"
-            android:layout_marginBottom="5dp"
-            android:layout_weight="0.20" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Chat"
-            android:id="@+id/textView8"
-            android:textAlignment="center"
-            android:textColor="#ffffff"
-            android:layout_weight="0.20"
-            android:gravity="center_vertical|center_horizontal"
-            android:layout_marginBottom="5dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Cart"
-            android:id="@+id/textView9"
-            android:textAlignment="center"
-            android:textColor="#ffffff"
-            android:layout_weight="0.27"
-            android:gravity="center_vertical|center_horizontal"
-            android:layout_marginBottom="5dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Sell"
-            android:id="@+id/textView10"
-            android:textAlignment="center"
-            android:textColor="#ffffff"
-            android:layout_weight="0.23"
-            android:gravity="center_vertical|center_horizontal"
-            android:layout_marginBottom="5dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Settings"
-            android:id="@+id/textView11"
-            android:textAlignment="center"
-            android:textColor="#ffffff"
-            android:layout_weight="0.05"
-            android:gravity="center_vertical|center_horizontal"
-            android:layout_marginBottom="5dp" />
-    </LinearLayout>
-
-
-</LinearLayout>
+</android.support.v4.widget.DrawerLayout>

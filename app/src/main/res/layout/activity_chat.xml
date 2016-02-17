@@ -1,47 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<android.support.v4.widget.DrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start"
+    tools:context=".ChatActivity">
 
-    <ListView
-        android:id="@+id/list_view_messages"
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@null"
-        android:divider="@null"
-        android:transcriptMode="alwaysScroll"
-        android:stackFromBottom="true">
-    </ListView>
 
-    <LinearLayout
-        android:id="@+id/llMsgCompose"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        android:weightSum="3">
+    <android.support.design.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
 
-        <EditText
-            android:id="@+id/inputMsg"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="2"
-            android:background="@color/primary"
-            android:textColor="@color/white"
-            android:paddingLeft="6dp"
-            android:paddingRight="6dp"/>
 
-        <Button
-            android:id="@+id/btnSend"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/primary_dark"
-            android:textColor="@color/white"
-            android:text="@string/send"/>
-    </LinearLayout>
 
-</LinearLayout>
+        <include layout="@layout/global_app_bar_layout" />
+
+
+
+        <!-- Content -->
+        <include layout="@layout/content_chat" />
+
+
+    </android.support.design.widget.CoordinatorLayout>
+
+
+
+    <!-- Nav mDrawerLayout -->
+    <include layout="@layout/global_navdrawer" />
+
+</android.support.v4.widget.DrawerLayout>
