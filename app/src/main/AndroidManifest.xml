@@ -12,6 +12,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
+            android:theme="@style/AppTheme.Dark"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,12 +21,20 @@
             </intent-filter>
         </activity>
 
+        <meta-data
+        android:name="android.app.default_searchable"
+        android:value=".SearchActivity" />
+
+        <!-- this activity enables the search dialog to initiate searches
+     in the SearchableActivity -->
+
         <activity android:name="teamjamin.ffs.LoginActivity" android:theme="@style/AppTheme.Dark" />
         <activity android:name="teamjamin.ffs.SignupActivity" android:theme="@style/AppTheme.Dark" />
         <activity android:name="teamjamin.ffs.CartActivity" android:theme="@style/AppTheme.Dark" />
         <activity android:name="teamjamin.ffs.SellActivity" android:theme="@style/AppTheme.Dark" />
         <activity android:name="teamjamin.ffs.ChatActivity" android:theme="@style/AppTheme.Dark" />
         <activity android:name="teamjamin.ffs.SettingsActivity" android:theme="@style/AppTheme.Dark" />
+        <activity android:name="teamjamin.ffs.DetailActivity" android:theme="@style/AppTheme.Dark" />
 
     </application>
 
