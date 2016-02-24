@@ -10,8 +10,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.client.AuthData;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
+import java.util.*;
 
 public class SignupActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
@@ -76,16 +82,34 @@ public class SignupActivity extends AppCompatActivity {
 
         // TODO: Implement signup logic here.
 
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onSignupSuccess or onSignupFailed
-                        // depending on success
-                        onSignupSuccess();
-                        // onSignupFailed();
-                        progressDialog.dismiss();
-                    }
-                }, 3000);
+        Firebase register = new Firebase("https://popping-heat-3804.firebaseio.com/");
+        register.createUser(email, password, new Firebase.ValueResultHandler<Map<String, Object>>() {
+            @Override
+            public void onSuccess(Map<String, Object> result) {
+                // success
+                new android.os.Handler().postDelayed(
+                        new Runnable() {
+                            public void run() {
+                                // On complete call either onSignupSuccess or onSignupFailed
+                                // depending on success
+                                onSignupSuccess();
+                            }
+                        }, 3000);
+            }
+
+            @Override
+            public void onError(FirebaseError firebaseError) {
+                // there was an error
+                new android.os.Handler().postDelayed(
+                        new Runnable() {
+                            public void run() {
+                                // onSignupFailed();
+                                progressDialog.dismiss();
+                            }
+                        }, 3000);
+            }
+        });
+
     }
 
 
