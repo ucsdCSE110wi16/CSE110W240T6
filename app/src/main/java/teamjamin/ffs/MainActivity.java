@@ -25,7 +25,7 @@ public class MainActivity extends BaseActivity {
         rootView = findViewById(R.id.activity_main_container);
 
         //Set nav drawer selected to first item in list
-        mNavigationView.getMenu().getItem(0).setChecked(true);
+        //mNavigationView.getMenu().getItem(0).setChecked(true);
 
         if(!Config.GUEST_LOGIN) {
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);

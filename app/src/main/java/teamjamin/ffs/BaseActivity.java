@@ -20,6 +20,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     private DrawerLayout mDrawerLayout;
     protected NavigationView mNavigationView;
     private ActionBarDrawerToggle mToggle;
+    Intent intent;
 
     /**
      * Helper method that can be used by child classes to
@@ -144,15 +145,27 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
         switch (id) {
             case R.id.nav_1:
-                createBackStack(new Intent(this, MainActivity.class));
+                intent = new Intent(this, CategoryActivity.class);
+                intent.putExtra("Category", "Electronics");
+                createBackStack(intent);
                 break;
 
             case R.id.nav_2:
-                createBackStack(new Intent(this, ChatActivity.class));
+                intent = new Intent(this, CategoryActivity.class);
+                intent.putExtra("Category", "Furniture");
+                createBackStack(intent);
                 break;
 
             case R.id.nav_3:
-                createBackStack(new Intent(this, CartActivity.class));
+                intent = new Intent(this, CategoryActivity.class);
+                intent.putExtra("Category", "Other");
+                createBackStack(intent);
+                break;
+
+            case R.id.nav_4:
+                intent = new Intent(this, CategoryActivity.class);
+                intent.putExtra("Category", "Sort");
+                createBackStack(intent);
                 break;
         }
 
