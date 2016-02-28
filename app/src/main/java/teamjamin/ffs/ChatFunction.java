@@ -55,8 +55,8 @@ public class ChatFunction extends Activity {
         setContentView(R.layout.activity_chat);
 
         // Get information from the previous activity
-        Intent getUsersData=getIntent();
-        UsersChatModel usersDataModel = getUsersData.getParcelableExtra(ReferenceUrl.USERS);
+        Intent getUsersData = getIntent();
+        UsersChatModel usersDataModel = (UsersChatModel) getUsersData.getParcelableExtra(ReferenceUrl.PASS_INFO);
 
         // Set recipient uid
         recipientId = usersDataModel.getRecipientUid();

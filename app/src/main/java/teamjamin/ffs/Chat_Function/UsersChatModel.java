@@ -5,6 +5,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class UsersChatModel implements Parcelable{
 
     /*recipient info*/
@@ -116,12 +119,11 @@ public class UsersChatModel implements Parcelable{
     }
 
     private String createUniqueChatRef(){
-        String uniqueChatRef="";
-        if(createdAtCurrentUser()>createdAtRecipient()){
-            uniqueChatRef=cleanEmailAddress(getCurrentUserEmail())+"-"+cleanEmailAddress(getUserEmail());
+        String uniqueChatRef = "";
+        if(createdAtCurrentUser() > createdAtRecipient()){
+            uniqueChatRef = cleanEmailAddress(getCurrentUserEmail()) + "-" + cleanEmailAddress(getUserEmail());
         }else {
-
-            uniqueChatRef=cleanEmailAddress(getUserEmail())+"-"+cleanEmailAddress(getCurrentUserEmail());
+            uniqueChatRef = cleanEmailAddress(getUserEmail()) + "-" + cleanEmailAddress(getCurrentUserEmail());
         }
         return uniqueChatRef;
     }
@@ -135,10 +137,8 @@ public class UsersChatModel implements Parcelable{
     }
 
     private String cleanEmailAddress(String email){
-
         //replace dot with comma since firebase does not allow dot
         return email.replace(".","-");
-
     }
 
     /*Parcelable*/

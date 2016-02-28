@@ -5,13 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="4dp"
-    android:background="#FFFFFF">
+    android:background="@color/primary">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/userPhotoProfile"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        tools:src="@drawable/headshot_7"
         android:layout_margin="10dp"/>
 
     <TextView
@@ -20,7 +19,7 @@
         android:layout_height="wrap_content"
         tools:text="Marcelino"
         android:textStyle="bold"
-        android:textColor="@color/primary"
+        android:textColor="@color/accent"
         android:layout_alignBottom="@+id/userPhotoProfile"
         android:layout_toEndOf="@+id/userPhotoProfile"
         android:layout_toRightOf="@+id/userPhotoProfile"

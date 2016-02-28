@@ -98,7 +98,7 @@ public class SignupActivity extends AppCompatActivity {
                         Map<String, Object> map = new HashMap<String, Object>();
                         map.put(ReferenceUrl.PROVIDER, authData.getProvider()); // The authentication method used
                         map.put(ReferenceUrl.FIRST_NAME, name);   // User first name
-                        map.put(ReferenceUrl.EMAIL, (String) authData.getProviderData().get(ReferenceUrl.EMAIL)); // User email address
+                        map.put(ReferenceUrl.USER_EMAIL, (String) authData.getProviderData().get(ReferenceUrl.EMAIL)); // User email address
                         map.put(ReferenceUrl.CONNECTION, ReferenceUrl.ONLINE);  // User status
                         map.put(ReferenceUrl.AVATAR_ID, ChatHelper.generateRandomAvatarForUser()); // User avatar id
 
@@ -126,7 +126,6 @@ public class SignupActivity extends AppCompatActivity {
                     }
 
                 });
-
                 new android.os.Handler().postDelayed(
                         new Runnable() {
                             public void run() {
@@ -135,7 +134,6 @@ public class SignupActivity extends AppCompatActivity {
                                 onSignupSuccess();
                             }
                         }, 3000);
-
             }
 
             @Override

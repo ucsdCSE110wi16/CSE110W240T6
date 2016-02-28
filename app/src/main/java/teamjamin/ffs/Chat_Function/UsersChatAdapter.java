@@ -24,20 +24,20 @@ import java.util.List;
 public class UsersChatAdapter extends RecyclerView.Adapter<UsersChatAdapter.ViewHolderUsers> {
 
     private List<UsersChatModel> mList;
-    private Context context;
+    private Context mcontext;
     private String userName;
     private String createdAt;
 
     //constructor
     public UsersChatAdapter(Context contexts, List<UsersChatModel> users) {
         mList = users;
-        context = contexts;
+        mcontext = contexts;
     }
 
     @Override
     public ViewHolderUsers onCreateViewHolder(ViewGroup parent, int viewType) {
         //inflate layout for each row
-        return new ViewHolderUsers(context, LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_profile, parent, false));
+        return new ViewHolderUsers(mcontext, LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_profile, parent, false));
     }
 
     @Override
@@ -47,11 +47,11 @@ public class UsersChatAdapter extends RecyclerView.Adapter<UsersChatAdapter.View
 
         //set avatar
         int userAvatar = ChatHelper.getDrawableAvatarId(users.getAvatarId());
-        Drawable avatar = ContextCompat.getDrawable(context,userAvatar);
+        Drawable avatar = ContextCompat.getDrawable(mcontext,userAvatar);
         holder.getUserPhoto().setImageDrawable(avatar);
 
         //set user name
-        holder.getUserFirstName().setText(users.getConnection());
+        holder.getUserFirstName().setText(users.getFirstName());
 
         //set presence status
         holder.getStatusConnection().setText(users.getConnection());
@@ -59,7 +59,7 @@ public class UsersChatAdapter extends RecyclerView.Adapter<UsersChatAdapter.View
         //set presence text color
         if (users.getConnection().equals(ReferenceUrl.ONLINE)) {
             //green
-            holder.getStatusConnection().setTextColor(Color.parseColor("00FF00"));
+            holder.getStatusConnection().setTextColor(Color.parseColor("#00FF00"));
         }
         else {
             //red
@@ -128,7 +128,7 @@ public class UsersChatAdapter extends RecyclerView.Adapter<UsersChatAdapter.View
             int position = getLayoutPosition(); //get row position
             UsersChatModel user = mList.get(position); //get use object
 
-            //provide current user usernamen and time created
+            //provide current user username and time created
             user.setCurrentUserName(userName);
             user.setCurrentUserCreatedAt(createdAt);
 
@@ -136,7 +136,7 @@ public class UsersChatAdapter extends RecyclerView.Adapter<UsersChatAdapter.View
             Intent chatIntent = new Intent(context,ChatFunction.class);
 
             //attach date to activity as a parcelable object
-            chatIntent.putExtra(ReferenceUrl.USERS,user);
+            chatIntent.putExtra(ReferenceUrl.PASS_INFO,user);
 
             //start new activity
             context.startActivity(chatIntent);
