@@ -64,11 +64,13 @@ public class MessageChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         switch (viewHolder.getItemViewType()) {
             case SENDER:
-                ViewHolderSender viewHolderSender = (ViewHolderSender) viewHolder;
+                //ViewHolderSender viewHolderSender = (ViewHolderSender) viewHolder;
+                ViewHolderSender viewHolderSender = new ViewHolderSender(viewHolder.itemView);
                 configureSenderView(viewHolderSender,position);
                 break;
             case RECIPIENT:
-                ViewHolderRecipient viewHolderRecipient = (ViewHolderRecipient) viewHolder;
+                //ViewHolderRecipient viewHolderRecipient = (ViewHolderRecipient) viewHolder;
+                ViewHolderRecipient viewHolderRecipient = new ViewHolderRecipient(viewHolder.itemView);
                 configureRecipientView(viewHolderRecipient,position);
                 break;
         }
