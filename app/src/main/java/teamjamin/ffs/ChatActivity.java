@@ -6,117 +6,202 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.Toast;
 
+import com.firebase.client.AuthData;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
+import teamjamin.ffs.R;
+import teamjamin.ffs.Chat_Function.ReferenceUrl;
+import teamjamin.ffs.Chat_Function.UsersChatAdapter;
+import teamjamin.ffs.Chat_Function.UsersChatModel;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+/**
+ * Created by Jessica on 2/27/16.
+ */
 
 public class ChatActivity extends Activity {
 
-    private static final String TAG=ChatActivity.class.getSimpleName();
+    private static final String TAG=MainActivity.class.getSimpleName();
 
-    private RecyclerView mChatRecyclerView;
-    private TextView     mUserMessageChatText;
-//    private MessageChatAdapter mMessageChatAdapter;
+    /* Reference to firebase */
+    private Firebase mFirebaseChatRef;
 
-    /* Sender and Recipient status*/
-    private static final int SENDER_STATUS=0;
-    private static final int RECIPIENT_STATUS=1;
+    /* Reference to users in firebase */
+    private Firebase mFireChatUsersRef;
 
-    /* Recipient uid */
-    private String mRecipientUid;
+    /* Updating connection status */
+    Firebase myConnectionsStatusRef;
 
-    /* Sender uid */
-    private String mSenderUid;
+    /* Listener for Firebase session changes */
+    private Firebase.AuthStateListener mAuthStateListener;
 
-    /* unique Firebase ref for this chat */
-    private Firebase mFirebaseMessagesChat;
+    /* Data from the authenticated user */
+    private AuthData mAuthData;
 
-    /* Listen to change in chat in firabase-remember to remove it */
-    private ChildEventListener mMessageChatListener;
+    /* recyclerView for mchat users */
+    private RecyclerView mUsersFireChatRecyclerView;
 
+    /* progress bar */
+    private View mProgressBarForUsers;
+
+    /* fire chat adapter */
+    private UsersChatAdapter mUsersChatAdapter;
+
+    /* current user uid */
+    private String mCurrentUserUid;
+
+    /* current user email */
+    private String mCurrentUserEmail;
+
+    /* Listen to users change in firebase-remember to detach it */
+    private ChildEventListener mListenerUsers;
+
+    /* Listen for user presence */
+    private ValueEventListener mConnectedListener;
+
+    /* List holding user key */
+    private List<String>  mUsersKeyList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat);
+        setContentView(R.layout.chat_profile_list);
 
-        // Get information from the previous activity
-        Intent getUsersData=getIntent();
-//        UsersChatModel usersDataModel=getUsersData.getParcelableExtra(ReferenceUrl.KEY_PASS_USERS_INFO);
+        // Initialize firebase
+        mFirebaseChatRef=new Firebase(ReferenceUrl.FIREBASE_URL); // Get app main firebase url
 
-        // Set recipient uid
-//        mRecipientUid=usersDataModel.getRecipientUid();
+        // Get a reference to users child in firebase
+        mFireChatUsersRef=new Firebase(ReferenceUrl.FIREBASE_URL).child(ReferenceUrl.USERS);
 
-        // Set sender uid;
-//        mSenderUid=usersDataModel.getCurrentUserUid();
+        // Get a reference to recyclerView
+        mUsersFireChatRecyclerView=(RecyclerView)findViewById(R.id.usersFireChatRecyclerView);
 
-        // Reference to recyclerView and text view
-        mChatRecyclerView=(RecyclerView)findViewById(R.id.chat_recycler_view);
-        mUserMessageChatText=(TextView)findViewById(R.id.chat_user_message);
-
-        // Set recyclerView and adapter
-        mChatRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mChatRecyclerView.setHasFixedSize(true);
+        // Get a reference to progress bar
+        mProgressBarForUsers=findViewById(R.id.progress_bar_users);
 
         // Initialize adapter
-//        List<MessageChatModel>  emptyMessageChat=new ArrayList<MessageChatModel>();
-//        mMessageChatAdapter=new MessageChatAdapter(emptyMessageChat);
+        List<UsersChatModel> emptyListChat=new ArrayList<UsersChatModel>();
+        mUsersChatAdapter =new UsersChatAdapter(this,emptyListChat);
 
         // Set adapter to recyclerView
- //       mChatRecyclerView.setAdapter(mMessageChatAdapter);
+        mUsersFireChatRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mUsersFireChatRecyclerView.setHasFixedSize(true);
+        mUsersFireChatRecyclerView.setAdapter(mUsersChatAdapter);
 
-        // Initialize firebase for this chat
-//        mFirebaseMessagesChat=new Firebase(ReferenceUrl.FIREBASE_CHAT_URL).child(ReferenceUrl.CHILD_CHAT).child(usersDataModel.getChatRef());
+        // Initialize keys list
+        mUsersKeyList=new ArrayList<String>();
 
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        //Log.e(TAG, " I am onDestroy");
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        Log.e(TAG, " I am onStart");
-        mMessageChatListener=mFirebaseMessagesChat.addChildEventListener(new ChildEventListener() {
+        // Listen for changes in the authentication state
+        // Because probably token expire after 24hrs or
+        // user log out
+        mAuthStateListener=new Firebase.AuthStateListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String previousChildKey) {
+            public void onAuthStateChanged(AuthData authData) {
+                setAuthenticatedUser(authData);
+            }
+        };
+
+        // Register the authentication state listener
+        mFirebaseChatRef.addAuthStateListener(mAuthStateListener);
+
+    }
+
+    private void setAuthenticatedUser(AuthData authData) {
+        mAuthData=authData;
+        if (authData != null) {
+
+            /* User auth has not expire yet */
+
+            // Get unique current user ID
+            mCurrentUserUid=authData.getUid();
+
+            // Get current user email
+            mCurrentUserEmail= (String) authData.getProviderData().get(ReferenceUrl.EMAIL);
+
+            // Query all mChat user except current user
+            queryFireChatUsers();
+
+
+        } else {
+            // Token expires or user log out
+            // So show logIn screen to reinitiate the token
+            navigateToLogin();
+        }
+    }
+
+    private void queryFireChatUsers() {
+
+        //Show progress bar
+        showProgressBarForUsers();
+
+        mListenerUsers=mFireChatUsersRef.limitToFirst(50).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+                //Log.e(TAG, "inside onChildAdded");
+                //Hide progress bar
+                hideProgressBarForUsers();
 
                 if(dataSnapshot.exists()){
-                    // Log.e(TAG, "A new chat was inserted");
+                    //Log.e(TAG, "A new user was inserted");
 
-//                    MessageChatModel newMessage=dataSnapshot.getValue(MessageChatModel.class);
- //                   if(newMessage.getSender().equals(mSenderUid)){
-//                        newMessage.setRecipientOrSenderStatus(SENDER_STATUS);
-//                    }else{
-//                        newMessage.setRecipientOrSenderStatus(RECIPIENT_STATUS);
-//                    }
-//                    mMessageChatAdapter.refillAdapter(newMessage);
- //                   mChatRecyclerView.scrollToPosition(mMessageChatAdapter.getItemCount()-1);
+                    String userUid=dataSnapshot.getKey();
+
+                    if(!userUid.equals(mCurrentUserUid)) {
+
+                        //Get recipient user name
+                        UsersChatModel user = dataSnapshot.getValue(UsersChatModel.class);
+
+                        //Add recipient uid
+                        user.setRecipientUid(userUid);
+
+                        //Add current user (or sender) info
+                        user.setCurrentUserEmail(mCurrentUserEmail); //email
+                        user.setCurrentUserUid(mCurrentUserUid);//uid
+                        mUsersKeyList.add(userUid);
+                        mUsersChatAdapter.refill(user);
+
+                    }else{
+                        UsersChatModel currentUser = dataSnapshot.getValue(UsersChatModel.class);
+                        String userName=currentUser.getFirstName(); //Get current user first name
+                        String createdAt=currentUser.getCreatedAt(); //Get current user date creation
+                        mUsersChatAdapter.setNameAndCreatedAt(userName, createdAt); //Add it the adapter
+                    }
                 }
-
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                if(dataSnapshot.exists()) {
+                    String userUid = dataSnapshot.getKey();
+                    if(!userUid.equals(mCurrentUserUid)) {
+                        UsersChatModel user = dataSnapshot.getValue(UsersChatModel.class);
+
+                        // Removed bug here
+                        //Add recipient uid
+                        user.setRecipientUid(userUid);
+
+                        //Add current user (or sender) info
+                        user.setCurrentUserEmail(mCurrentUserEmail); //email
+                        user.setCurrentUserUid(mCurrentUserUid);//uid
+                        int index = mUsersKeyList.indexOf(userUid);
+                        Log.e(TAG, "change index "+index);
+                        mUsersChatAdapter.changeUser(index, user);
+                    }
+
+                }
+
 
             }
 
@@ -136,52 +221,138 @@ public class ChatActivity extends Activity {
             }
         });
 
+
+        // // Store current user status as online
+        myConnectionsStatusRef= mFireChatUsersRef.child(mCurrentUserUid).child(ReferenceUrl.CONNECTION);
+
+        // Indication of connection status
+        mConnectedListener = mFirebaseChatRef.getRoot().child(".info/connected").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                boolean connected = (Boolean) dataSnapshot.getValue();
+                if (connected) {
+
+                    myConnectionsStatusRef.setValue(ReferenceUrl.ONLINE);
+
+                    // When this device disconnects, remove it
+                    myConnectionsStatusRef.onDisconnect().setValue(ReferenceUrl.OFFLINE);
+                    Toast.makeText(ChatActivity.this, "Connected to Firebase", Toast.LENGTH_SHORT).show();
+
+                } else {
+
+                    Toast.makeText(ChatActivity.this, "Disconnected from Firebase", Toast.LENGTH_SHORT).show();
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+
+
     }
+
+    private void navigateToLogin() {
+
+        // Go to LogIn screen
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // LoginActivity is a New Task
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK); // The old task when coming back to this activity should be cleared so we cannot come back to it.
+        startActivity(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //int size=mUsersKeyList.size();
+        //Log.e(TAG, " size"+size);
+    }
+
 
     @Override
     protected void onPause() {
         super.onPause();
-        Log.e(TAG, "I am onPause");
-
+        //Log.e(TAG, "I am onPause");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.e(TAG, "I am onStop");
-
-        // Remove listener
-        if(mMessageChatListener !=null) {
-            // Remove listener
-            mFirebaseMessagesChat.removeEventListener(mMessageChatListener);
-        }
-        // Clean chat message
-//        mMessageChatAdapter.cleanUp();
-
+        //Log.e(TAG, "I am onStop");
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
 
-    public void sendMessageToFireChat(View sendButton){
-        String senderMessage=mUserMessageChatText.getText().toString();
-        senderMessage=senderMessage.trim();
+        //Log.e(TAG, "I am onDestroy");
 
-        if(!senderMessage.isEmpty()){
+        // If changing configurations, stop tracking firebase session.
+        mFirebaseChatRef.removeAuthStateListener(mAuthStateListener);
 
-            // Log.e(TAG, "send message");
+        mUsersKeyList.clear();
 
-            // Send message to firebase
-            Map<String, String> newMessage = new HashMap<String, String>();
-            newMessage.put("sender", mSenderUid); // Sender uid
-            newMessage.put("recipient",mRecipientUid); // Recipient uid
-            newMessage.put("message",senderMessage); // Message
-
-            mFirebaseMessagesChat.push().setValue(newMessage);
-
-            // Clear text
-            mUserMessageChatText.setText("");
-
+        // Stop all listeners
+        // Make sure to check if they have been initialized
+        if(mListenerUsers!=null) {
+            mFireChatUsersRef.removeEventListener(mListenerUsers);
+        }
+        if(mConnectedListener!=null) {
+            mFirebaseChatRef.getRoot().child(".info/connected").removeEventListener(mConnectedListener);
         }
     }
 
+
+    private void logout() {
+
+        if (this.mAuthData != null) {
+
+            /* Logout of mChat */
+
+            // Store current user status as offline
+            myConnectionsStatusRef.setValue(ReferenceUrl.OFFLINE);
+
+            // Finish token
+            mFirebaseChatRef.unauth();
+
+            /* Update authenticated user and show login screen */
+            setAuthenticatedUser(null);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId()==R.id.action_logout){
+            logout();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    /*Show and hide progress bar*/
+    private void showProgressBarForUsers(){
+        mProgressBarForUsers.setVisibility(View.VISIBLE);
+    }
+
+
+    private void hideProgressBarForUsers(){
+        if(mProgressBarForUsers.getVisibility()==View.VISIBLE) {
+            mProgressBarForUsers.setVisibility(View.GONE);
+        }
+    }
 
 }

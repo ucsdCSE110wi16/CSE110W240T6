@@ -1,24 +1,23 @@
-package teamjamin.ffs.ChatModel;
+package teamjamin.ffs.Chat_Function;
 
 /**
- * Created by User on 2/24/16.
+ * Created by Jessica on 2/27/16.
  */
-public class MessageModel {
 
+public class MessageChatModel {
     private String message;
     private String recipient;
     private String sender;
 
-    private int status;
+    private int senderStatus;
 
-        /* Setter */
-
+    /* setter */
     public void setMessage(String message) {
         this.message = message;
     }
 
-    public void setStatus(int recipientOrSenderStatus) {
-        this.status = status;
+    public void setRecipientOrSenderStatus(int recipientOrSenderStatus) {
+        this.senderStatus = recipientOrSenderStatus;
     }
 
     public void setRecipient(String givenRecipient){
@@ -29,9 +28,7 @@ public class MessageModel {
         sender=givenSender;
     }
 
-
-    /* Getter */
-
+    /* getter */
     public String getMessage() {
         return message;
     }
@@ -44,8 +41,8 @@ public class MessageModel {
         return sender;
     }
 
-    public int getStatus() {
-        return status;
+    public int getRecipientOrSenderStatus() {
+        return senderStatus;
     }
 
 }

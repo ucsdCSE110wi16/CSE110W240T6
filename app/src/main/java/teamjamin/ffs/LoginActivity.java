@@ -129,7 +129,7 @@ public class LoginActivity extends AppCompatActivity {
                                 // On complete call either onLoginSuccess or onLoginFailed
                                 onLoginSuccess();
                             }
-                        }, 3000);
+                        }, 1500);
             }
 
             @Override
@@ -140,7 +140,7 @@ public class LoginActivity extends AppCompatActivity {
                                 // On complete call either onLoginSuccess or onLoginFailed
                                 progressDialog.dismiss();
                             }
-                        }, 3000);
+                        }, 1500);
             }
         });
 

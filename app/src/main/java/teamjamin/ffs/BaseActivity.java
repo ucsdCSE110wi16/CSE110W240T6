@@ -148,7 +148,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 break;
 
             case R.id.nav_2:
-                createBackStack(new Intent(this, ChatActivity.class));
+                createBackStack(new Intent(this, ChatFunction.class));
                 break;
 
             case R.id.nav_3:
