@@ -18,7 +18,7 @@ public class ChatActivity extends BaseActivity {
         rootView = findViewById(R.id.activity_chat_container);
 
         //Set nav drawer selected to second item in list
-        //mNavigationView.getMenu().getItem(1).setChecked(true);
+        mNavigationView.getMenu().getItem(1).setChecked(true);
 
     }
 

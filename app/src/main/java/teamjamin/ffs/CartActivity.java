@@ -15,7 +15,7 @@ public class CartActivity extends BaseActivity {
         rootView = findViewById(R.id.activity_cart_container);
 
         //Set nav drawer selected to second item in list
-        //mNavigationView.getMenu().getItem(2).setChecked(true);
+        mNavigationView.getMenu().getItem(2).setChecked(true);
 
     }
 
