@@ -253,6 +253,11 @@ public class ChatActivity extends Activity {
             }
         });
 
+<<<<<<< HEAD
+        //Set nav drawer selected to second item in list
+        //mNavigationView.getMenu().getItem(1).setChecked(true);
+=======
+>>>>>>> refs/remotes/ucsdCSE110wi16/master
 
     }
 
