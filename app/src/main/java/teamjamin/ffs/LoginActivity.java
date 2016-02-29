@@ -11,6 +11,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.client.AuthData;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -110,8 +114,37 @@ public class LoginActivity extends AppCompatActivity {
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
 
-        // TODO: Implement authentication logic here.
+        //omit space
+        email = email.trim();
+        password = password.trim();
 
+        // TODO: Implement authentication logic here.
+        Firebase authenticate = new Firebase("https://popping-heat-3804.firebaseio.com/");
+        authenticate.authWithPassword(email, password, new Firebase.AuthResultHandler() {
+            @Override
+            public void onAuthenticated(AuthData authData) {
+                new android.os.Handler().postDelayed(
+                        new Runnable() {
+                            public void run() {
+                                // On complete call either onLoginSuccess or onLoginFailed
+                                onLoginSuccess();
+                            }
+                        }, 1500);
+            }
+
+            @Override
+            public void onAuthenticationError(FirebaseError firebaseError) {
+                new android.os.Handler().postDelayed(
+                        new Runnable() {
+                            public void run() {
+                                // On complete call either onLoginSuccess or onLoginFailed
+                                progressDialog.dismiss();
+                            }
+                        }, 1500);
+            }
+        });
+
+        /**
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {
@@ -121,6 +154,7 @@ public class LoginActivity extends AppCompatActivity {
                         progressDialog.dismiss();
                     }
                 }, 3000);
+         **/
     }
 
     /**

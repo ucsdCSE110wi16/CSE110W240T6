@@ -12,3 +12,4 @@ public class SettingsActivity extends AppCompatActivity {protected void onCreate
 }
 
 }
+

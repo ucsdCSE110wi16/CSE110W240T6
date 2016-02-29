@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.firebase.client.Firebase;
+
 public class MainActivity extends BaseActivity {
 
     ImageView imgBtn_home, imgBtn_chat, imgBtn_cart, imgBtn_sell, imgBtn_settings;
@@ -21,6 +23,10 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //setup firebase on android
+        Firebase.setAndroidContext(this);
+
         setContentView(R.layout.activity_main);
         rootView = findViewById(R.id.activity_main_container);
 

@@ -9,9 +9,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.Intent;
+
+import com.firebase.client.AuthData;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import teamjamin.ffs.Chat_Function.ReferenceUrl;
+import teamjamin.ffs.Chat_Function.ChatHelper;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
+import java.util.*;
 
 public class SignupActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
@@ -70,22 +79,76 @@ public class SignupActivity extends AppCompatActivity {
         progressDialog.setMessage("Creating Account...");
         progressDialog.show();
 
-        String name = _nameText.getText().toString();
-        String email = _emailText.getText().toString();
-        String password = _passwordText.getText().toString();
+        final String name = _nameText.getText().toString();
+        final String email = _emailText.getText().toString();
+        final String password = _passwordText.getText().toString();
 
         // TODO: Implement signup logic here.
 
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onSignupSuccess or onSignupFailed
-                        // depending on success
-                        onSignupSuccess();
-                        // onSignupFailed();
-                        progressDialog.dismiss();
+        final Firebase register = new Firebase("https://popping-heat-3804.firebaseio.com/");
+        register.createUser(email, password, new Firebase.ValueResultHandler<Map<String, Object>>() {
+            @Override
+            public void onSuccess(Map<String, Object> result) {
+                // success
+                register.authWithPassword(email, password, new Firebase.AuthResultHandler() {
+
+                    @Override
+                    public void onAuthenticated(AuthData authData) {
+                        //store user data necessary
+                        Map<String, Object> map = new HashMap<String, Object>();
+                        map.put(ReferenceUrl.PROVIDER, authData.getProvider()); // The authentication method used
+                        map.put(ReferenceUrl.FIRST_NAME, name);   // User first name
+                        map.put(ReferenceUrl.USER_EMAIL, (String) authData.getProviderData().get(ReferenceUrl.EMAIL)); // User email address
+                        map.put(ReferenceUrl.CONNECTION, ReferenceUrl.ONLINE);  // User status
+                        map.put(ReferenceUrl.AVATAR_ID, ChatHelper.generateRandomAvatarForUser()); // User avatar id
+
+                        // Time user date is stored in database
+                        long createTime = new Date().getTime();
+                        map.put(ReferenceUrl.TIMESTAMP, String.valueOf(createTime)); // Timestamp is string type
+
+                        // Store user data in the path https://<YOUR-FIREBASE-APP>.firebaseio.com/users/<uid>,
+                        // where users/ is any arbitrary path to store user data, and <uid> represents the
+                        // unique id obtained from the authentication data
+                        register.child(ReferenceUrl.USERS).child(authData.getUid()).setValue(map);
+
+/*
+                        // After storing, go to main activity
+                        Intent intent = new Intent(SignupActivity.this,BaseActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+*/
                     }
-                }, 3000);
+
+                    @Override
+                    public void onAuthenticationError(FirebaseError firebaseError) {
+                        Toast.makeText(SignupActivity.this, "An error occured!", Toast.LENGTH_SHORT).show();
+                    }
+
+                });
+                new android.os.Handler().postDelayed(
+                        new Runnable() {
+                            public void run() {
+                                // On complete call either onSignupSuccess or onSignupFailed
+                                // depending on success
+                                onSignupSuccess();
+                            }
+                        }, 3000);
+            }
+
+            @Override
+            public void onError(FirebaseError firebaseError) {
+                // there was an error
+                new android.os.Handler().postDelayed(
+                        new Runnable() {
+                            public void run() {
+                                // onSignupFailed();
+                                progressDialog.dismiss();
+                            }
+                        }, 3000);
+            }
+        });
+
     }
 
 
