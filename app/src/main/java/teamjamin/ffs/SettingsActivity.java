@@ -10,6 +10,24 @@ public class SettingsActivity extends AppCompatActivity {protected void onCreate
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_settings);
 }
+    public void setNotifications_on() {
+
+    }
+    public void setNotifications_off(){
+
+    }
+
+    public boolean changeUsername(String username){
+        return true;
+    }
+    public boolean changePassword(String password){
+        return true;
+    }
+
+    public void deleteAccount(){
+
+    }
+
 
 }
 
