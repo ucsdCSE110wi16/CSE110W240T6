@@ -4,7 +4,8 @@ package teamjamin.ffs.Chat_Function;
  * Created by Jessica on 2/27/16.
  */
 public class ReferenceUrl {
-    public static final String FIREBASE_URL = "https://popping-heat-3804.firebaseio.com/";
+    //public static final String FIREBASE_URL = "https://popping-heat-3804.firebaseio.com/";
+    public static final String FIREBASE_URL = "https://ffs.firebaseio.com/";
     public static final String USERS = "users";
     public static final String CHAT = "chat";
     public static final String CONNECTION = "connection";

@@ -12,9 +12,14 @@ public class Item {
     private double itemPrice;
     private String itemDescription;
 
-    private ImageView itemPicture;
+    private String itemPicture;
 
-    Item(String title, double price, String description, ImageView picture) {
+    Item()
+    {
+        // Firebase needs default; left empty
+    }
+
+    Item(String title, double price, String description, String picture) {
         itemTitle = title;
         itemPrice = price;
         itemDescription = description;
@@ -49,7 +54,7 @@ public class Item {
         itemPrice = price;
     }
 
-    public ImageView getItemPicture() {
+    public String getItemPicture() {
         return this.itemPicture;
     }
 

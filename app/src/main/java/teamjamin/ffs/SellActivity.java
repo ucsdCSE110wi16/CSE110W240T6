@@ -19,6 +19,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.firebase.client.Firebase;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.text.DecimalFormat;
@@ -46,6 +48,9 @@ public class SellActivity extends AppCompatActivity {
     private static final int CAMERA_CAPTURE_REQUEST_CODE = 100;
     private static final int MEDIA_TYPE_IMAGE = 2;
     private Uri fileUri; // file url to store image
+
+    private String postID;
+    private boolean posted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +87,8 @@ public class SellActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 validate();
+                posted = false;
+                uploadItem(v);
             }
         });
 
@@ -120,6 +127,7 @@ public class SellActivity extends AppCompatActivity {
         try {
             if (requestCode == CAMERA_CAPTURE_REQUEST_CODE){
                 if (resultCode == RESULT_OK) {
+                    imgPath = fileUri.getPath();
                     // Image was captured successfully! Set it into ImageView for preview
                     BitmapFactory.Options options = new BitmapFactory.Options();
                     options.inSampleSize = 2;
@@ -176,6 +184,7 @@ public class SellActivity extends AppCompatActivity {
     public void uploadItem(View view) {
         // Image IS selected from gallery
         if (imgPath != null && !imgPath.isEmpty()) {
+            posted = false;
             progressDialog.setMessage("Uploading...");
             progressDialog.show();
             // Convert image to String using Base64
@@ -183,7 +192,7 @@ public class SellActivity extends AppCompatActivity {
             btn_upload.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //TODO: Upload call here
+                    // check values
                     validate();
                 }
             });
@@ -193,8 +202,6 @@ public class SellActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Please select an image from the gallery before you try to upload", Toast.LENGTH_SHORT).show();
         }
     }
-
-
 
     /** HELPER METHODS **/
 
@@ -271,9 +278,31 @@ public class SellActivity extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(String message) {
-                 progressDialog.setMessage("Calling Upload Server...");
-                // TODO: trigger upload call here.
-        }
+                progressDialog.setMessage("Calling Upload Server...");
+
+                if( posted == false) {
+
+                    // check values
+                    validate();
+
+                    encodeImageToString();
+
+                    Firebase itemRef = new Firebase("https://ffs.firebaseio.com/items/");
+                    Firebase newItemRef = itemRef.push();
+
+                    Item it = new Item(item_title.getText().toString(), Double.parseDouble(item_price.getText().toString())
+                            , item_description.getText().toString(), encodedString);
+
+                    //Firebase itemRef = ref.child("items")/*.child(/ *USERINFO* /)*/;
+                    newItemRef.setValue(it);
+
+                    String postID = newItemRef.getKey();
+
+                    posted = true;
+                }
+                progressDialog.dismiss();
+                finish();
+          }
         }.execute(null, null, null);
     }
 
@@ -308,7 +337,9 @@ public class SellActivity extends AppCompatActivity {
             item_description.setError("You have reached the character limit of 140 characters.");
             validate = false;
         } else {
-            item_description.setText("No description provided.");
+            if(itemDescription.isEmpty()) {
+                item_description.setText("No description provided.");
+            }
             item_description.setError(null);
         }
 

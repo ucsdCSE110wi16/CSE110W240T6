@@ -85,7 +85,7 @@ public class SignupActivity extends AppCompatActivity {
 
         // TODO: Implement signup logic here.
 
-        final Firebase register = new Firebase("https://popping-heat-3804.firebaseio.com/");
+        final Firebase register = new Firebase("https://ffs.firebaseio.com/");
         register.createUser(email, password, new Firebase.ValueResultHandler<Map<String, Object>>() {
             @Override
             public void onSuccess(Map<String, Object> result) {
