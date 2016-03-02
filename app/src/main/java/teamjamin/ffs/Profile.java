@@ -3,7 +3,7 @@ package teamjamin.ffs;
 /**
  * Created by ilia on 3/1/2016.
  */
-public class Profile {
+public class Profile implements Notifiable{
     private String Username;
     private String password;
     private boolean
