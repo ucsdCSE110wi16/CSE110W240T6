@@ -151,13 +151,12 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 break;
 
             case R.id.nav_2:
-<<<<<<< HEAD
+
                 intent = new Intent(this, CategoryActivity.class);
                 intent.putExtra("Category", "Furniture");
                 createBackStack(intent);
-=======
+
                 createBackStack(new Intent(this, ChatFunction.class));
->>>>>>> refs/remotes/ucsdCSE110wi16/master
                 break;
 
             case R.id.nav_3:

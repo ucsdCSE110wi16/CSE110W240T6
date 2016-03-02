@@ -89,10 +89,7 @@
         </activity>
 
         <activity android:name=".SettingsActivity"
-<<<<<<< HEAD
             android:theme="@style/AppTheme.NoActionBar"></activity>
-=======
-            android:theme="@style/AppTheme"></activity>
 
         <activity
             android:name=".ChatFunction"
@@ -105,6 +102,5 @@
                 android:value=".ChatActivity" />
         </activity>
 
->>>>>>> refs/remotes/ucsdCSE110wi16/master
     </application>
 </manifest>
