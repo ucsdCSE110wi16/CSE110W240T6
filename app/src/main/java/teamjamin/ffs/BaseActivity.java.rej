@@ -1,0 +1,17 @@
+diff a/app/src/main/java/teamjamin/ffs/BaseActivity.java b/app/src/main/java/teamjamin/ffs/BaseActivity.java	(rejected hunks)
+@@ -151,13 +151,12 @@
+                 break;
+ 
+             case R.id.nav_2:
+-<<<<<<< HEAD
++
+                 intent = new Intent(this, CategoryActivity.class);
+                 intent.putExtra("Category", "Furniture");
+                 createBackStack(intent);
+-=======
++
+                 createBackStack(new Intent(this, ChatFunction.class));
+->>>>>>> refs/remotes/ucsdCSE110wi16/master
+                 break;
+ 
+             case R.id.nav_3:

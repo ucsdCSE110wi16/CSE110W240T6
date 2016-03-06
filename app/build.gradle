@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion "23.0.2"
+    compileSdkVersion 'Google Inc.:Google APIs:23'
+    buildToolsVersion '23.0.2'
     defaultConfig {
         applicationId "teamjamin.ffs"
         minSdkVersion 15
@@ -24,21 +24,14 @@ android {
         exclude 'META-INF/LICENSE-FIREBASE.txt'
         exclude 'META-INF/NOTICE'
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
 }
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
-    compile 'de.hdodenhof:circleimageview:2.0.0'
-    compile 'com.android.support:appcompat-v7:22.2.1'
-    compile 'com.android.support:design:22.2.1'
-    compile 'com.android.support:recyclerview-v7:22.2.0'
-    compile 'com.facebook.android:facebook-android-sdk:4.6.0'
-    compile files('libs/butterknife-7.0.1.jar')
-
-    //add firebase
-    compile 'com.firebase:firebase-client-android:2.5.2+'
 }
