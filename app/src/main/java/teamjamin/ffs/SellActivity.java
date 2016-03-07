@@ -12,10 +12,10 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -27,24 +27,26 @@ import java.io.File;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Created by Jenny on 2/10/16.
  */
+
 public class SellActivity extends AppCompatActivity {
     private View rootView;
+    private Toolbar sellToolbar;
+
     private ProgressDialog progressDialog;
     private Button btn_camera;
     private Button btn_gallery;
     private Button btn_upload;
+    private Button btn_decode;
+
     private ImageView img_item;
-    private CheckBox check_electronics;
-    private CheckBox check_appliances;
-    private CheckBox check_furniture;
-    private CheckBox check_books;
-    private CheckBox check_services;
-    private CheckBox check_others;
+    private ImageView img_decode;
     private EditText item_title, item_price, item_description;
 
     Bitmap bitmap;
@@ -56,46 +58,20 @@ public class SellActivity extends AppCompatActivity {
     private static final int MEDIA_TYPE_IMAGE = 2;
     private Uri fileUri; // file url to store image
 
-    private String tagIDs;
     private String postID;
     private boolean posted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_sell);
-
-        check_electronics = (CheckBox) findViewById(R.id.electronics);
-        if(check_electronics.isChecked()) {
-            tagIDs = tagIDs + " " + "ELECTRONICS";
-        }
-
-        check_appliances = (CheckBox) findViewById(R.id.appliances);
-        if(check_appliances.isChecked()) {
-            tagIDs = tagIDs + " " + "APPLIANCES";
-        }
-
-        check_furniture = (CheckBox) findViewById(R.id.furniture);
-        if(check_furniture.isChecked()) {
-            tagIDs = tagIDs + " " + "FURNITURE";
-        }
-
-        check_books = (CheckBox) findViewById(R.id.book);
-        if(check_books.isChecked()) {
-            tagIDs = tagIDs + " " + "BOOKS";
-        }
-
-        check_services = (CheckBox) findViewById(R.id.services);
-        if(check_services.isChecked()) {
-            tagIDs = tagIDs + " " + "SERVICES";
-        }
-
-        check_others = (CheckBox) findViewById(R.id.others);
-        if(check_services.isChecked()) {
-            tagIDs = tagIDs + " " + "OTHERS";
-        }
-
         rootView = findViewById(R.id.activity_sell_container);
+
+        // Fix issue where title in ActionBar doesn't show
+        sellToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(sellToolbar);
+        getSupportActionBar().setTitle("SELL");
 
         //Set nav drawer selected to second item in list
         //mNavigationView.getMenu().getItem(1).setChecked(true);
@@ -105,14 +81,26 @@ public class SellActivity extends AppCompatActivity {
         progressDialog.setCancelable(false);
 
         btn_camera = (Button) findViewById(R.id.camera_btn);
+        btn_gallery = (Button) findViewById(R.id.gallery_btn);
+        btn_upload = (Button) findViewById(R.id.upload_btn);
+        btn_decode = (Button) findViewById(R.id.btn_decode);
+        btn_decode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                byte[] decodedString = Base64.decode(encodedString, Base64.DEFAULT);
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                img_decode = (ImageView) findViewById(R.id.decode_img);
+                img_decode.setImageBitmap(decodedByte);
+            }
+        });
+
+
         btn_camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loadCamera(v);
             }
         });
-
-        btn_gallery = (Button) findViewById(R.id.gallery_btn);
         btn_gallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,21 +108,27 @@ public class SellActivity extends AppCompatActivity {
             }
         });
 
-        btn_upload = (Button) findViewById(R.id.upload_btn);
-        btn_upload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                validate();
-                posted = false;
-                uploadItem(v);
-            }
-        });
+        if(!Config.GUEST_LOGIN) {
+            btn_upload.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    validate();
+                    posted = false;
+                    uploadItem(v);
+                }
+            });
+        } else {
+            btn_upload.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getApplicationContext(), "You must be logged in to sell something.", Toast.LENGTH_LONG).show();
+                }
+            });
+        }
 
         item_title = (EditText) findViewById(R.id.input_item_title);
         item_description = (EditText) findViewById(R.id.input_item_description);
         item_price = (EditText) findViewById(R.id.input_item_price);
-
-
 
         // Checking camera availability
         if (!isDeviceSupportCamera()) {
@@ -167,12 +161,11 @@ public class SellActivity extends AppCompatActivity {
         try {
             if (requestCode == CAMERA_CAPTURE_REQUEST_CODE){
                 if (resultCode == RESULT_OK) {
-                    imgPath = fileUri.getPath();
                     // Image was captured successfully! Set it into ImageView for preview
                     BitmapFactory.Options options = new BitmapFactory.Options();
                     options.inSampleSize = 2;
                     bitmap = BitmapFactory.decodeFile(fileUri.getPath(), options);
-
+                    imgPath = fileUri.getPath();
                     img_item = (ImageView) findViewById(R.id.itemPicture);
                     img_item.setImageBitmap(bitmap);
 
@@ -239,9 +232,11 @@ public class SellActivity extends AppCompatActivity {
         }
         // Image IS NOT selected from gallery
         else {
-            Toast.makeText(getApplicationContext(), "Please select an image from the gallery before you try to upload", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Please take a picture or select an image from the gallery before you try to upload", Toast.LENGTH_SHORT).show();
         }
     }
+
+
 
     /** HELPER METHODS **/
 
@@ -303,12 +298,11 @@ public class SellActivity extends AppCompatActivity {
             protected String doInBackground(Void... params) {
                 BitmapFactory.Options options = null;
                 options = new BitmapFactory.Options();
-                options.inSampleSize = 4;
                 bitmap = BitmapFactory.decodeFile(imgPath, options);
                 ByteArrayOutputStream baostream = new ByteArrayOutputStream();
 
                 // Compress the image to reduce the image size making uploading easier
-                bitmap.compress(Bitmap.CompressFormat.PNG, 25, baostream);
+                bitmap.compress(Bitmap.CompressFormat.PNG, 50, baostream);
                 byte[] byteArray = baostream.toByteArray();
 
                 // Encode image to string
@@ -331,19 +325,22 @@ public class SellActivity extends AppCompatActivity {
                     Firebase newItemRef = itemRef.push();
 
                     Item it = new Item(item_title.getText().toString(), Double.parseDouble(item_price.getText().toString())
-                            ,item_description.getText().toString(), encodedString);
+                            , item_description.getText().toString(), encodedString);
 
                     //Firebase itemRef = ref.child("items")/*.child(/ *USERINFO* /)*/;
                     newItemRef.setValue(it);
 
                     String postID = newItemRef.getKey();
+                    Map<String, Object> pid = new HashMap<String, Object>();
+                    pid.put(postID + "/post_id", postID);
+                    itemRef.updateChildren(pid);
 
                     posted = true;
                 }
                 progressDialog.dismiss();
-                finish();
           }
         }.execute(null, null, null);
+        return;
     }
 
     private boolean validate() {

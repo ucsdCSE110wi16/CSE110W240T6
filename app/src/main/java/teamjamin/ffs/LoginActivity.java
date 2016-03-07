@@ -15,6 +15,9 @@ import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -22,6 +25,8 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
     private static final int REQUEST_GUEST_LOGIN = 0;
+
+   // private String uid;
 
     @Bind(R.id.input_email)
     EditText _emailText;
@@ -119,14 +124,21 @@ public class LoginActivity extends AppCompatActivity {
         password = password.trim();
 
         // TODO: Implement authentication logic here.
-        Firebase authenticate = new Firebase("https://ffs.firebaseio.com/");
+        final Firebase authenticate = new Firebase("https://ffs.firebaseio.com/");
         authenticate.authWithPassword(email, password, new Firebase.AuthResultHandler() {
             @Override
             public void onAuthenticated(AuthData authData) {
+
+                Firebase onlineRef = authenticate.child("users").child(authData.getUid());
+                Map<String, Object> online = new HashMap<String, Object>();
+                online.put("/connection", "online");
+                onlineRef.updateChildren(online);
+
                 new android.os.Handler().postDelayed(
                         new Runnable() {
                             public void run() {
                                 // On complete call either onLoginSuccess or onLoginFailed
+
                                 onLoginSuccess();
                             }
                         }, 1500);
@@ -161,17 +173,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        /**
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onLoginSuccess or onLoginFailed
-                        onLoginSuccess();
-                        // onLoginFailed();
-                        progressDialog.dismiss();
-                    }
-                }, 3000);
-         **/
     }
 
     /**
@@ -199,6 +200,7 @@ public class LoginActivity extends AppCompatActivity {
      */
     public void onLoginSuccess() {
         _loginButton.setEnabled(true);
+        Config.GUEST_LOGIN = false;
         finish();
     }
 
