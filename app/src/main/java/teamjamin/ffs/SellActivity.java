@@ -331,7 +331,7 @@ public class SellActivity extends AppCompatActivity {
                     Firebase newItemRef = itemRef.push();
 
                     Item it = new Item(item_title.getText().toString(), Double.parseDouble(item_price.getText().toString())
-                            , item_description.getText().toString(), encodedString);
+                            ,item_description.getText().toString(), encodedString);
 
                     //Firebase itemRef = ref.child("items")/*.child(/ *USERINFO* /)*/;
                     newItemRef.setValue(it);
