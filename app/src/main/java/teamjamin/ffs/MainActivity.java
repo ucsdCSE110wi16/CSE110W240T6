@@ -43,6 +43,7 @@ public class MainActivity extends BaseActivity {
         imgBtn_cart = (ImageView)findViewById(R.id.cartBtn);
         imgBtn_sell = (ImageView)findViewById(R.id.sellBtn);
         imgBtn_settings = (ImageView)findViewById(R.id.settingsBtn);
+        //imgBtn_item = (ImageView)findViewById(R.id.item_name);
 
 
         imgBtn_home.setOnClickListener(new View.OnClickListener() {

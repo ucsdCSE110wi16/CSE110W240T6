@@ -8,68 +8,92 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:layout_weight="0.67">
+        android:layout_height="200dp"
+        android:layout_gravity="top">
 
         <ImageView
-            android:layout_width="200dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/imageView5"
             android:layout_gravity="center_horizontal|top"
             android:background="@color/primary_dark" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Price:"
-            android:id="@+id/textView14"
-            android:layout_weight="1.39"
-            android:textColor="@color/primary_dark"
-            android:layout_gravity="center_vertical"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="15dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Item name: "
+                android:id="@+id/textView35"
+                android:textColor="@color/primary_dark"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="5dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Description:"
+                android:id="@+id/textView13"
+                android:textColor="@color/primary_dark"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Price:"
+                android:id="@+id/textView14"
+                android:layout_weight="1.39"
+                android:textColor="@color/primary_dark"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="15dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Categories:"
+                android:id="@+id/textView12"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="15dp"
+                android:textColor="@color/primary_dark" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Description:"
-        android:id="@+id/textView13"
-        android:textColor="@color/primary_dark"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Seller&apos;s rating"
-        android:id="@+id/textView15"
-        android:layout_marginTop="60dp"
-        android:layout_marginLeft="15dp"
-        android:textColor="@color/primary_dark" />
-
-    <RatingBar
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/ratingBar"
-        android:layout_marginBottom="10dp" />
+        android:layout_gravity="bottom|right"
+        android:layout_weight="0.2">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Message seller"
-        android:id="@+id/button8"
-        android:layout_gravity="center|bottom" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SELLER&apos;S PROFILE"
-        android:id="@+id/button9"
-        android:layout_gravity="center|bottom" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Message seller"
+            android:id="@+id/button8"
+            android:layout_gravity="center|bottom|right"
+            android:layout_marginLeft="130dp" />
+    </LinearLayout>
 
 </LinearLayout>

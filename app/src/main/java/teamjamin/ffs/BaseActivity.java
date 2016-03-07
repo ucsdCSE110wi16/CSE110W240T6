@@ -145,30 +145,24 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
         switch (id) {
             case R.id.nav_1:
-                intent = new Intent(this, CategoryActivity.class);
-                intent.putExtra("Category", "Electronics");
-                createBackStack(intent);
+                intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
                 break;
 
             case R.id.nav_2:
-
-                intent = new Intent(this, CategoryActivity.class);
-                intent.putExtra("Category", "Furniture");
-                createBackStack(intent);
-
-                createBackStack(new Intent(this, ChatFunction.class));
+                intent = new Intent(this, ChatActivity.class);
+                startActivity(intent);
                 break;
 
             case R.id.nav_3:
-                intent = new Intent(this, CategoryActivity.class);
-                intent.putExtra("Category", "Other");
-                createBackStack(intent);
+                intent = new Intent(this, CartActivity.class);
+                startActivity(intent);
                 break;
 
             case R.id.nav_4:
                 intent = new Intent(this, CategoryActivity.class);
                 intent.putExtra("Category", "Sort");
-                createBackStack(intent);
+                startActivity(intent);
                 break;
         }
 

@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -38,6 +39,12 @@ public class SellActivity extends AppCompatActivity {
     private Button btn_gallery;
     private Button btn_upload;
     private ImageView img_item;
+    private CheckBox check_electronics;
+    private CheckBox check_appliances;
+    private CheckBox check_furniture;
+    private CheckBox check_books;
+    private CheckBox check_services;
+    private CheckBox check_others;
     private EditText item_title, item_price, item_description;
 
     Bitmap bitmap;
@@ -49,6 +56,7 @@ public class SellActivity extends AppCompatActivity {
     private static final int MEDIA_TYPE_IMAGE = 2;
     private Uri fileUri; // file url to store image
 
+    private String tagIDs;
     private String postID;
     private boolean posted;
 
@@ -56,6 +64,36 @@ public class SellActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sell);
+
+        check_electronics = (CheckBox) findViewById(R.id.electronics);
+        if(check_electronics.isChecked()) {
+            tagIDs = tagIDs + " " + "ELECTRONICS";
+        }
+
+        check_appliances = (CheckBox) findViewById(R.id.appliances);
+        if(check_appliances.isChecked()) {
+            tagIDs = tagIDs + " " + "APPLIANCES";
+        }
+
+        check_furniture = (CheckBox) findViewById(R.id.furniture);
+        if(check_furniture.isChecked()) {
+            tagIDs = tagIDs + " " + "FURNITURE";
+        }
+
+        check_books = (CheckBox) findViewById(R.id.book);
+        if(check_books.isChecked()) {
+            tagIDs = tagIDs + " " + "BOOKS";
+        }
+
+        check_services = (CheckBox) findViewById(R.id.services);
+        if(check_services.isChecked()) {
+            tagIDs = tagIDs + " " + "SERVICES";
+        }
+
+        check_others = (CheckBox) findViewById(R.id.others);
+        if(check_services.isChecked()) {
+            tagIDs = tagIDs + " " + "OTHERS";
+        }
 
         rootView = findViewById(R.id.activity_sell_container);
 
@@ -95,6 +133,8 @@ public class SellActivity extends AppCompatActivity {
         item_title = (EditText) findViewById(R.id.input_item_title);
         item_description = (EditText) findViewById(R.id.input_item_description);
         item_price = (EditText) findViewById(R.id.input_item_price);
+
+
 
         // Checking camera availability
         if (!isDeviceSupportCamera()) {
