@@ -14,7 +14,7 @@ public class Item {
     private String itemDescription;
     private String sellerEmail;
     private String sellerName;
-    private boolean[] array ;
+    private boolean[] array = new boolean[6];
     private String itemPicture;
     private String post_id;
 
