@@ -1,6 +1,7 @@
 package teamjamin.ffs;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -14,6 +15,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
+
 public abstract class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private Toolbar mActionBarToolbar;
@@ -21,10 +26,16 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     protected NavigationView mNavigationView;
     private ActionBarDrawerToggle mToggle;
     Intent intent;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     /**
      * Helper method that can be used by child classes to
      * specify that they don't want a {@link Toolbar}
+     *
      * @return true
      */
     protected boolean useToolbar() {
@@ -35,13 +46,12 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     /**
      * Helper method to allow child classes to opt-out of having the
      * hamburger menu.
+     *
      * @return
      */
     protected boolean useDrawerToggle() {
         return true;
     }
-
-
 
 
     @Override
@@ -66,8 +76,10 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             sp.registerOnSharedPreferenceChangeListener(this);
             ...
          */
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
-
 
 
     protected Toolbar getActionBarToolbar() {
@@ -92,7 +104,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     }
 
 
-
     private void setupNavDrawer() {
 
 
@@ -103,27 +114,24 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
 
         // use the hamburger menu
-        if( useDrawerToggle()) {
+        if (useDrawerToggle()) {
             mToggle = new ActionBarDrawerToggle(
                     this, mDrawerLayout, mActionBarToolbar,
                     R.string.navigation_drawer_open,
                     R.string.navigation_drawer_close);
             mDrawerLayout.setDrawerListener(mToggle);
             mToggle.syncState();
-        }
-        else if(useToolbar() && getSupportActionBar() != null) {
+        } else if (useToolbar() && getSupportActionBar() != null) {
             // Use home/back button instead
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeAsUpIndicator(ContextCompat
-                    .getDrawable(this, R.drawable.abc_ic_ab_back_mtrl_am_alpha));
+                    .getDrawable(this, R.drawable.abc_ic_ab_back_material));
         }
 
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
         mNavigationView.setNavigationItemSelectedListener(this);
 
     }
-
-
 
 
     @Override
@@ -184,10 +192,10 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     }
 
 
-
     /**
      * Enables back navigation for activities that are launched from the NavBar. See
      * {@code AndroidManifest.xml} to find out the parent activity names for each activity.
+     *
      * @param intent
      */
     private void createBackStack(Intent intent) {
@@ -202,4 +210,43 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     }
 
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Base Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://teamjamin.ffs/http/host/path")
+        );
+        AppIndex.AppIndexApi.start(client, viewAction);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Base Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://teamjamin.ffs/http/host/path")
+        );
+        AppIndex.AppIndexApi.end(client, viewAction);
+        client.disconnect();
+    }
 }//end BaseActivity
