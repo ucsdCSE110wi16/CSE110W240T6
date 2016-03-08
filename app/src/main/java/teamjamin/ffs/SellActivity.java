@@ -12,9 +12,12 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -25,19 +28,33 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Created by Jenny on 2/10/16.
  */
+
 public class SellActivity extends AppCompatActivity {
     private View rootView;
+    private Toolbar sellToolbar;
+
     private ProgressDialog progressDialog;
     private Button btn_camera;
     private Button btn_gallery;
     private Button btn_upload;
+    private Button btn_decode;
+
     private ImageView img_item;
+    private CheckBox check_electronics;
+    private CheckBox check_appliances;
+    private CheckBox check_furniture;
+    private CheckBox check_books;
+    private CheckBox check_services;
+    private CheckBox check_others;
     private EditText item_title, item_price, item_description;
 
     Bitmap bitmap;
@@ -49,15 +66,21 @@ public class SellActivity extends AppCompatActivity {
     private static final int MEDIA_TYPE_IMAGE = 2;
     private Uri fileUri; // file url to store image
 
+    private ArrayList<String> tagIDs;
     private String postID;
     private boolean posted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sell);
 
+        setContentView(R.layout.activity_sell);
         rootView = findViewById(R.id.activity_sell_container);
+
+        // Fix issue where title in ActionBar doesn't show
+        sellToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(sellToolbar);
+        getSupportActionBar().setTitle("SELL");
 
         //Set nav drawer selected to second item in list
         //mNavigationView.getMenu().getItem(1).setChecked(true);
@@ -67,14 +90,15 @@ public class SellActivity extends AppCompatActivity {
         progressDialog.setCancelable(false);
 
         btn_camera = (Button) findViewById(R.id.camera_btn);
+        btn_gallery = (Button) findViewById(R.id.gallery_btn);
+        btn_upload = (Button) findViewById(R.id.upload_btn);
+
         btn_camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loadCamera(v);
             }
         });
-
-        btn_gallery = (Button) findViewById(R.id.gallery_btn);
         btn_gallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,25 +106,134 @@ public class SellActivity extends AppCompatActivity {
             }
         });
 
-        btn_upload = (Button) findViewById(R.id.upload_btn);
-        btn_upload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                validate();
-                posted = false;
-                uploadItem(v);
-            }
-        });
+        // Not logged in as a Guest User
+        if(!Config.GUEST_LOGIN) {
+            btn_upload.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    validate();
+                    posted = false;
+                    uploadItem(v);
+                }
+            });
+        } else {
+            btn_upload.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getApplicationContext(), "You must be logged in to sell something.", Toast.LENGTH_LONG).show();
+                }
+            });
+        }
 
         item_title = (EditText) findViewById(R.id.input_item_title);
         item_description = (EditText) findViewById(R.id.input_item_description);
         item_price = (EditText) findViewById(R.id.input_item_price);
 
+        tagIDs = new ArrayList<String>();
+
+        check_electronics = (CheckBox) findViewById(R.id.electronics);
+        check_electronics.setOnCheckedChangeListener(new CheckBox.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked) {
+                    tagIDs.add("ELECTRONICS");
+                } else {
+                    for(int i = 0; i < tagIDs.size(); i++ ) {
+                        if(tagIDs.get(i).equals("ELECTRONICS")) {
+                            tagIDs.remove(i);
+                        }
+                    }
+                }
+            }
+        });
+
+        check_appliances = (CheckBox) findViewById(R.id.appliances);
+        check_appliances.setOnCheckedChangeListener(new CheckBox.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked) {
+                    tagIDs.add("APPLIANCES");
+                } else {
+                    for(int i = 0; i < tagIDs.size(); i++ ) {
+                        if(tagIDs.get(i).equals("APPLIANCES")) {
+                            tagIDs.remove(i);
+                        }
+                    }
+                }
+            }
+        });
+
+        check_furniture = (CheckBox) findViewById(R.id.furniture);
+        check_furniture.setOnCheckedChangeListener(new CheckBox.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked) {
+                    tagIDs.add("FURNITURE");
+                } else {
+                    for(int i = 0; i < tagIDs.size(); i++ ) {
+                        if(tagIDs.get(i).equals("FURNITURE")) {
+                            tagIDs.remove(i);
+                        }
+                    }
+                }
+            }
+        });
+
+        check_books = (CheckBox) findViewById(R.id.book);
+        check_books.setOnCheckedChangeListener(new CheckBox.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked) {
+                    tagIDs.add("BOOKS");
+                } else {
+                    for(int i = 0; i < tagIDs.size(); i++ ) {
+                        if(tagIDs.get(i).equals("BOOKS")) {
+                            tagIDs.remove(i);
+                        }
+                    }
+                }
+            }
+        });
+
+        check_services = (CheckBox) findViewById(R.id.services);
+        check_services.setOnCheckedChangeListener(new CheckBox.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked) {
+                    tagIDs.add("SERVICES");
+                } else {
+                    for(int i = 0; i < tagIDs.size(); i++ ) {
+                        if(tagIDs.get(i).equals("SERVICES")) {
+                            tagIDs.remove(i);
+                        }
+                    }
+                }
+            }
+        });
+
+        check_others = (CheckBox) findViewById(R.id.others);
+        check_others.setOnCheckedChangeListener(new CheckBox.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked) {
+                    tagIDs.add("OTHERS");
+                } else {
+                    for(int i = 0; i < tagIDs.size(); i++ ) {
+                        if(tagIDs.get(i).equals("OTHERS")) {
+                            tagIDs.remove(i);
+                        }
+                    }
+                }
+            }
+        });
+
         // Checking camera availability
         if (!isDeviceSupportCamera()) {
             Toast.makeText(getApplicationContext(), "Camera Not Found", Toast.LENGTH_LONG).show();
             // will close the app if the device doesn't have camera
+            finish();
         }
+
     }
 
     // Load up camera app in an activity
@@ -127,12 +260,11 @@ public class SellActivity extends AppCompatActivity {
         try {
             if (requestCode == CAMERA_CAPTURE_REQUEST_CODE){
                 if (resultCode == RESULT_OK) {
-                    imgPath = fileUri.getPath();
                     // Image was captured successfully! Set it into ImageView for preview
                     BitmapFactory.Options options = new BitmapFactory.Options();
                     options.inSampleSize = 2;
                     bitmap = BitmapFactory.decodeFile(fileUri.getPath(), options);
-
+                    imgPath = fileUri.getPath();
                     img_item = (ImageView) findViewById(R.id.itemPicture);
                     img_item.setImageBitmap(bitmap);
 
@@ -199,9 +331,11 @@ public class SellActivity extends AppCompatActivity {
         }
         // Image IS NOT selected from gallery
         else {
-            Toast.makeText(getApplicationContext(), "Please select an image from the gallery before you try to upload", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Please take a picture or select an image from the gallery before you try to upload", Toast.LENGTH_SHORT).show();
         }
     }
+
+
 
     /** HELPER METHODS **/
 
@@ -255,7 +389,7 @@ public class SellActivity extends AppCompatActivity {
 
     // AsyncTask to convert image to string
     public void encodeImageToString() {
-        new AsyncTask<Void, Void, String>() {
+       new AsyncTask<Void, Void, String>() {
 
             protected void onPreExecute() {
             }
@@ -263,12 +397,11 @@ public class SellActivity extends AppCompatActivity {
             protected String doInBackground(Void... params) {
                 BitmapFactory.Options options = null;
                 options = new BitmapFactory.Options();
-                options.inSampleSize = 4;
                 bitmap = BitmapFactory.decodeFile(imgPath, options);
                 ByteArrayOutputStream baostream = new ByteArrayOutputStream();
 
                 // Compress the image to reduce the image size making uploading easier
-                bitmap.compress(Bitmap.CompressFormat.PNG, 25, baostream);
+                bitmap.compress(Bitmap.CompressFormat.PNG, 50, baostream);
                 byte[] byteArray = baostream.toByteArray();
 
                 // Encode image to string
@@ -291,19 +424,24 @@ public class SellActivity extends AppCompatActivity {
                     Firebase newItemRef = itemRef.push();
 
                     Item it = new Item(item_title.getText().toString(), Double.parseDouble(item_price.getText().toString())
-                            , item_description.getText().toString(), encodedString);
+                            , item_description.getText().toString(), encodedString, "", "", appendTags(tagIDs));
+
+                    Toast.makeText(getApplication(), appendTags(tagIDs), Toast.LENGTH_LONG).show();
 
                     //Firebase itemRef = ref.child("items")/*.child(/ *USERINFO* /)*/;
                     newItemRef.setValue(it);
 
                     String postID = newItemRef.getKey();
+                    Map<String, Object> pid = new HashMap<String, Object>();
+                    pid.put(postID + "/post_id", postID);
+                    itemRef.updateChildren(pid);
 
                     posted = true;
                 }
                 progressDialog.dismiss();
-                finish();
           }
         }.execute(null, null, null);
+        return;
     }
 
     private boolean validate() {
@@ -334,7 +472,7 @@ public class SellActivity extends AppCompatActivity {
 
         // Check if there's a description (not required)
         if(itemDescription.length() > 200) {
-            item_description.setError("You have reached the character limit of 140 characters.");
+            item_description.setError("You have reached the character limit of 200 characters.");
             validate = false;
         } else {
             if(itemDescription.isEmpty()) {
@@ -351,6 +489,24 @@ public class SellActivity extends AppCompatActivity {
             item_price.setError(null);
             // Toast.makeText(getApplicationContext(), "Price: " + itemPrice_received, Toast.LENGTH_LONG).show();
         }
+
+        if(tagIDs.isEmpty()) {
+           Toast.makeText(getApplicationContext(), "You must select a tag before uploading.", Toast.LENGTH_LONG).show();
+            validate = false;
+        }
         return validate;
+    }
+
+    /** HELPER METHOD **/
+    private String appendTags(ArrayList<String> arrayList) {
+        String ret = "";
+        if(arrayList.isEmpty()) {
+            return ret;
+        } else {
+            for(String s : arrayList) {
+                ret += s + " ";
+            }
+        }
+        return ret;
     }
 }

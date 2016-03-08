@@ -10,33 +10,81 @@
     tools:showIn="@layout/activity_main"
     android:id="@+id/activity_main_container">
 
-    <LinearLayout android:id="@+id/LinearLayout02" android:layout_height="wrap_content" android:layout_width="match_parent"
-        android:layout_marginBottom="0dp">
-        <Button
-            android:id="@+id/Button04"
-            android:text="Appliances"
-            android:layout_width="fill_parent"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:background="@color/pink"
-            android:textColor="@color/white" />
-        <Button
-            android:id="@+id/Button05"
-            android:text="Electronics"
-            android:layout_width="fill_parent"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:background="@color/pink"
-            android:textColor="@color/white" />
-        <Button
-            android:id="@+id/Button06"
-            android:text="Furniture"
-            android:layout_width="fill_parent"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:background="@color/pink"
-            android:textColor="@color/white" />
-    </LinearLayout>
+    <HorizontalScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/horizontalScrollView2" >
+
+        <LinearLayout android:id="@+id/LinearLayout02" android:layout_height="wrap_content" android:layout_width="match_parent"
+            android:layout_marginBottom="0dp">
+            <Button
+                android:id="@+id/btn_appliances"
+                android:text="Appliances"
+                android:layout_width="fill_parent"
+                android:layout_weight="2"
+                android:layout_height="wrap_content"
+                android:background="@color/pink"
+                android:textColor="@color/white"
+                android:padding="10dp" />
+            <Button
+                android:id="@+id/btn_electronics"
+                android:text="Electronics"
+                android:layout_width="fill_parent"
+                android:layout_weight="2"
+                android:layout_height="wrap_content"
+                android:background="@color/pink"
+                android:textColor="@color/white"
+                android:padding="10dp" />
+            <Button
+                android:id="@+id/btn_furniture"
+                android:text="Furniture"
+                android:layout_width="fill_parent"
+                android:layout_weight="2"
+                android:layout_height="wrap_content"
+                android:background="@color/pink"
+                android:textColor="@color/white"
+                android:padding="10dp" />
+
+            <Button
+                android:id="@+id/btn_books"
+                android:text="Books"
+                android:layout_width="fill_parent"
+                android:layout_weight="2"
+                android:layout_height="wrap_content"
+                android:background="@color/pink"
+                android:textColor="@color/white"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:padding="10dp" />
+
+            <Button
+                android:id="@+id/btn_services"
+                android:text="Services"
+                android:layout_width="fill_parent"
+                android:layout_weight="2"
+                android:layout_height="wrap_content"
+                android:background="@color/pink"
+                android:textColor="@color/white"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:padding="10dp" />
+
+            <Button
+                android:id="@+id/button2"
+                android:text="Other"
+                android:layout_width="fill_parent"
+                android:layout_weight="2"
+                android:layout_height="wrap_content"
+                android:background="@color/pink"
+                android:textColor="@color/white"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:padding="10dp" />
+        </LinearLayout>
+    </HorizontalScrollView>
 
     <LinearLayout
         android:orientation="vertical"
@@ -46,17 +94,30 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="NEW ITEMS"
-            android:id="@+id/textView"
-            android:textColor="#FFFFFF"
-            android:layout_marginBottom="15dp"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            android:layout_marginLeft="20dp" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="NEW ITEMS"
+                android:id="@+id/textView"
+                android:textColor="#FFFFFF"
+                android:layout_marginBottom="15dp"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Update"
+                android:id="@+id/update_feed" />
+        </LinearLayout>
 
         <HorizontalScrollView
             android:layout_width="match_parent"
@@ -71,7 +132,8 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:id="@+id/new_items_feed">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -80,54 +142,6 @@
                     android:src="@drawable/thing"
                     android:layout_marginRight="8dp" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/imageView2"
-                    android:src="@drawable/thing"
-                    android:layout_marginRight="8dp" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/imageView3"
-                    android:src="@drawable/thing"
-                    android:layout_marginRight="8dp" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/imageView4"
-                    android:src="@drawable/thing"
-                    android:layout_marginRight="8dp" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/imageView5"
-                    android:src="@drawable/thing"
-                    android:layout_marginRight="8dp" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/imageView6"
-                    android:src="@drawable/thing"
-                    android:layout_marginRight="8dp" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/imageView7"
-                    android:src="@drawable/thing"
-                    android:layout_marginRight="8dp" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/imageView8"
-                    android:src="@drawable/thing"
-                    android:layout_marginRight="8dp" />
             </LinearLayout>
         </HorizontalScrollView>
 
@@ -268,4 +282,5 @@
             android:longClickable="false"
             android:src="@drawable/settings" />
     </LinearLayout>
+
 </RelativeLayout>
