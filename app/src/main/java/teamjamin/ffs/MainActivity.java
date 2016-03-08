@@ -70,7 +70,7 @@ public class MainActivity extends BaseActivity {
         imgBtn_home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                Intent intent = new Intent(MainActivity.this, MainActivity.class);
 //                startActivity(intent);
                 return;
             }
@@ -103,8 +103,12 @@ public class MainActivity extends BaseActivity {
         imgBtn_settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-                startActivity(intent);
+                if (Config.GUEST_LOGIN) {
+                    Toast.makeText(getApplicationContext(), "You must be logged in to access Settings. If you need to logout, access menu options above.", Toast.LENGTH_LONG).show();
+                } else {
+                    Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -126,9 +130,6 @@ public class MainActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         return true;
     }
 
@@ -146,9 +147,13 @@ public class MainActivity extends BaseActivity {
         }
 
         if (id == R.id.action_settings) {
-            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-            startActivity(intent);
-            return true;
+            if (Config.GUEST_LOGIN) {
+                Toast.makeText(getApplicationContext(), "You must be logged in to access Settings. If you need to logout, access menu options above.", Toast.LENGTH_LONG).show();
+            } else {
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(intent);
+                return true;
+            }
         }
 
         if(id == R.id.action_logout) {
