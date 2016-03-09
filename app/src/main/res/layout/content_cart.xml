@@ -6,124 +6,50 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".CartActivity"
-    android:background="@color/primary_dark">
-    <!--tools:showIn="@layout/activity_cart"-->
-    <!--android:id="@+id/activity_cart_container">-->
+    android:background="@color/primary_dark"
+    tools:showIn="@layout/activity_cart"
+    android:id="@+id/activity_cart_container">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:id="@+id/all_items">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
         <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:id="@+id/cart_item">
-
-            <ImageView
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/item_picture"
-                android:src="@drawable/thing"
-                android:layout_marginRight="20dp" />
+                android:orientation="horizontal">
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/item_title"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
-                        android:textSize="15sp"
-                        android:layout_weight="1" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/item_price"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
-                        android:textSize="15sp"
-                        android:layout_weight="1"
-                        android:textAlignment="textEnd" />
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Seller"
-                    android:id="@+id/textView4"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:textSize="10dp" />
-
-                <TextView
+                <Button
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/item_seller"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:textSize="12dp"
-                    android:layout_marginBottom="10dp" />
+                    android:text="Clear Cart"
+                    android:id="@+id/btn_empty"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"
+                    android:background="@color/pink"
+                    android:textColor="@color/white" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Categories"
-                    android:id="@+id/textView5"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:textSize="10dp" />
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/item_category"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:textSize="12dp"
-                    android:layout_marginBottom="10dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Description"
-                    android:id="@+id/textView6"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:textSize="10dp" />
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/item_description"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:textSize="12dp"
-                    android:layout_marginBottom="10dp" />
-
-            </LinearLayout>
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Refresh"
+                android:id="@+id/btn_refresh"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:background="@color/pink"
+                android:textColor="@color/white" />
 
         </LinearLayout>
 
-        <Button
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="create"
-            android:id="@+id/btn_empty"
-            android:layout_gravity="center_horizontal" />
+            android:id="@+id/all_items">
+
+
+        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>

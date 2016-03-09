@@ -1,5 +1,12 @@
 package teamjamin.ffs;
 
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.widget.LinearLayout;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+
 /**
  * Created by Aaron on 2/16/2016.
  */
@@ -9,7 +16,9 @@ public class Config {
 
     public static String EMAIL;
 
-    public static String PASSWORD;
+    public static ArrayList<Item> cart_item_list = new ArrayList<>();
+
+    public static int NUM = 0;
 
     // File upload URL, default set to blank
     public static String fileUploadUrl = "";
@@ -29,10 +38,4 @@ public class Config {
         // TODO: updating username on firebase
         EMAIL = newEmail;
     }
-
-    public static void updatePassword(String newPassword) {
-        // TODO: updating username on firebase
-        PASSWORD = newPassword;
-    }
-
 }

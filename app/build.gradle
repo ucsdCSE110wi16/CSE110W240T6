@@ -39,7 +39,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.+'
     compile 'com.android.support:design:23.+'
     compile 'com.android.support:recyclerview-v7:23.+'
-    compile 'com.facebook.android:facebook-android-sdk:4.6.0'
     compile files('libs/butterknife-7.0.1.jar')
 
     //add firebase
