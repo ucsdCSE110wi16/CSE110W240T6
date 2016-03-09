@@ -42,6 +42,9 @@ public class SignupActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
         ButterKnife.bind(this);
 
+        //for Espresso testing
+        Firebase.setAndroidContext(this);
+
         // Set up sign up button
         _signupButton.setOnClickListener(new View.OnClickListener() {
             @Override

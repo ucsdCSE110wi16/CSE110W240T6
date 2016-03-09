@@ -46,6 +46,9 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
+        //Added this here for Testing
+        Firebase.setAndroidContext(this);
+
         // Set up login button
         _loginButton.setOnClickListener(new View.OnClickListener() {
 

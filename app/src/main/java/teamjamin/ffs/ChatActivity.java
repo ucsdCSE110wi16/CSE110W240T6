@@ -74,6 +74,9 @@ public class ChatActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //for Espresso testing
+        Firebase.setAndroidContext(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_profile_list);
 
