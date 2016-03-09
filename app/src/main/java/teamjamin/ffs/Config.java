@@ -7,7 +7,7 @@ public class Config {
 
     public static boolean GUEST_LOGIN;
 
-    public static String USERNAME;
+    public static String EMAIL;
 
     public static String PASSWORD;
 
@@ -25,9 +25,9 @@ public class Config {
         fileUploadUrl = url;
     }
 
-    public static void updateUsername(String newUsername) {
+    public static void updateEmail(String newEmail) {
         // TODO: updating username on firebase
-        USERNAME = newUsername;
+        EMAIL = newEmail;
     }
 
     public static void updatePassword(String newPassword) {

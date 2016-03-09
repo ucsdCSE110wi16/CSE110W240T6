@@ -1,6 +1,5 @@
 package teamjamin.ffs.Chat_Function;
 
-import android.nfc.Tag;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
@@ -32,17 +31,17 @@ public class UsersChatModel implements Parcelable{
     private UsersChatModel(Parcel parcelIn) {
 
         //Remember the order used to read data is the same used to write them
-        firstName=parcelIn.readString();
-        provider=parcelIn.readString();
-        userEmail=parcelIn.readString();
-        createdAt=parcelIn.readString();
-        connection=parcelIn.readString();
-        avatarId=parcelIn.readInt();
-        mRecipientUid=parcelIn.readString();
-        mCurrentUserName=parcelIn.readString();
-        mCurrentUserUid=parcelIn.readString();
-        mCurrentUserEmail=parcelIn.readString();
-        mCurrentUserCreatedAt=parcelIn.readString();
+        firstName = parcelIn.readString();
+        provider = parcelIn.readString();
+        userEmail = parcelIn.readString();
+        createdAt = parcelIn.readString();
+        connection = parcelIn.readString();
+        avatarId = parcelIn.readInt();
+        mRecipientUid = parcelIn.readString();
+        mCurrentUserName = parcelIn.readString();
+        mCurrentUserUid = parcelIn.readString();
+        mCurrentUserEmail = parcelIn.readString();
+        mCurrentUserCreatedAt = parcelIn.readString();
 
     }
 

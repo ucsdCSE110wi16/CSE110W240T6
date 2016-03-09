@@ -24,9 +24,9 @@ import java.util.Map;
 public class SettingsActivity extends PreferenceActivity {
 
     SharedPreferences sharedPreferences;
-    String currUsername, currPassword;
+    String currEmail, currPassword;
 
-    EditTextPreference username, pasword;
+    EditTextPreference email;
     PreferenceScreen logout;
 
     private static final int RESULT_SETTINGS = 1;
@@ -38,15 +38,11 @@ public class SettingsActivity extends PreferenceActivity {
         addPreferencesFromResource(R.xml.settings);
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        if(currUsername == null) {
-            currUsername = Config.USERNAME;
+
+        if(currEmail == null) {
+            currEmail = Config.EMAIL;
         } else {
-            currUsername = sharedPreferences.getString("prefUsername", null);
-        }
-        if(currPassword == null) {
-            currPassword = Config.PASSWORD;
-        } else {
-            currPassword = sharedPreferences.getString("prefPassword", null);
+            currEmail = sharedPreferences.getString("prefUsername", null);
         }
 
         logout = (PreferenceScreen) findPreference("prefLogout");
@@ -82,14 +78,9 @@ public class SettingsActivity extends PreferenceActivity {
 
     private void updateUserSettings() {
         // TODO: updating logic here
-        if(!currUsername.equals(Config.USERNAME)) {
-            Config.USERNAME = currUsername;
-            Config.updateUsername(currUsername);
-        }
-
-        if(!currPassword.equals(Config.PASSWORD)) {
-            Config.PASSWORD = currPassword;
-            Config.updatePassword(currPassword);
+        if(!currEmail.equals(Config.EMAIL)) {
+            Config.EMAIL = currEmail;
+            Config.updateEmail(currEmail);
         }
     }
 

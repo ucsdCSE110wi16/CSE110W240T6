@@ -8,17 +8,6 @@
             android:id="@+id/id_username"
             android:key="prefUsername"/>
 
-        <EditTextPreference
-            android:title="@string/pref_user_password"
-            android:summary="@string/pref_user_password_summary"
-            android:inputType="textPassword"
-            android:key="prefPassword"/>
-
-        <PreferenceScreen
-            android:title="@string/pref_user_items"
-            android:summary="@string/pref_user_items_summary"
-            android:key="prefUserItems"/>
-
         <PreferenceScreen
             android:title="@string/pref_logout"
             android:key="prefLogout"/>

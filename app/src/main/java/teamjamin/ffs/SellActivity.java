@@ -22,7 +22,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.firebase.client.AuthData;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -33,6 +37,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+
+import teamjamin.ffs.Chat_Function.ReferenceUrl;
 
 /**
  * Created by Jenny on 2/10/16.
@@ -70,6 +76,12 @@ public class SellActivity extends AppCompatActivity {
     private String postID;
     private boolean posted;
 
+    private Firebase.AuthStateListener mAuthStateListener;
+    private AuthData mAuthData;
+
+    private String email;
+    private String name;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +93,21 @@ public class SellActivity extends AppCompatActivity {
         sellToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(sellToolbar);
         getSupportActionBar().setTitle("SELL");
+
+        Firebase base = new Firebase("https://ffs.firebaseio.com");
+        mAuthStateListener=new Firebase.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(AuthData authData) {
+                if(authData != null) {
+                    mAuthData = authData;
+                    email = (String) authData.getProviderData().get(ReferenceUrl.EMAIL);
+                    name = (String) authData.getProviderData().get(ReferenceUrl.FIRST_NAME);
+                }
+            }
+        };
+
+        // Register the authentication state listener
+        base.addAuthStateListener(mAuthStateListener);
 
         //Set nav drawer selected to second item in list
         //mNavigationView.getMenu().getItem(1).setChecked(true);
@@ -423,10 +450,13 @@ public class SellActivity extends AppCompatActivity {
                     Firebase itemRef = new Firebase("https://ffs.firebaseio.com/items/");
                     Firebase newItemRef = itemRef.push();
 
-                    Item it = new Item(item_title.getText().toString(), Double.parseDouble(item_price.getText().toString())
-                            , item_description.getText().toString(), encodedString, "", "", appendTags(tagIDs));
+                    Firebase userRef = new Firebase("https://ffs.firebaseio.com/users/" + itemRef.getAuth().getUid());
 
-                    Toast.makeText(getApplication(), appendTags(tagIDs), Toast.LENGTH_LONG).show();
+                    // Toast.makeText(getApplicationContext(), email + " " + name + " " + itemRef.getAuth().getUid(), Toast.LENGTH_LONG).show();
+                    String categories = appendTags(tagIDs);
+
+                    Item it = new Item(item_title.getText().toString(), Double.parseDouble(item_price.getText().toString())
+                            , item_description.getText().toString(), encodedString, email, "", categories);
 
                     //Firebase itemRef = ref.child("items")/*.child(/ *USERINFO* /)*/;
                     newItemRef.setValue(it);
@@ -437,6 +467,7 @@ public class SellActivity extends AppCompatActivity {
                     itemRef.updateChildren(pid);
 
                     posted = true;
+                    Toast.makeText(getApplicationContext(), "Upload successful.", Toast.LENGTH_LONG).show();
                 }
                 progressDialog.dismiss();
           }

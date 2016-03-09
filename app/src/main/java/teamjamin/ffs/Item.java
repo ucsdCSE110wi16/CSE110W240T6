@@ -1,7 +1,6 @@
 package teamjamin.ffs;
 
-import android.widget.ImageView;
-import android.widget.TextView;
+import java.text.DecimalFormat;
 
 /**
  * Created by Aaron on 2/26/2016.
@@ -14,9 +13,9 @@ public class Item {
     private String itemDescription;
     private String sellerEmail;
     private String sellerName;
-    private boolean[] array = new boolean[6];
     private String itemPicture;
     private String post_id;
+    private double category;
 
 
     Item()
@@ -29,47 +28,30 @@ public class Item {
         itemPrice = price;
         itemDescription = description;
         itemPicture = picture;
+
         sellerEmail = email;
         sellerName = name;
+
+        category = 0;
+        if (cate.contains("OTHERS")) {
+            category += 1;
+        }
         if (cate.contains("ELECTRONICS")) {
-            array[0] = true;
+            category += 10;
         }
         if (cate.contains("APPLIANCES")) {
-            array[1] = true;
+            category += 100;
         }
         if (cate.contains("FURNITURE")) {
-            array[2] = true;
+            category += 1000;
         }
         if (cate.contains("BOOKS")) {
-            array[3] = true;
+            category += 10000;
         }
         if (cate.contains("SERVICES")) {
-            array[4] = true;
-        }
-        if (cate.contains("OTHERS")) {
-            array[5] = true;
+            category += 100000;
         }
     }
-/*
-    boolean isElectronics () {
-        return this.tag == "ELECTRONICS";
-    }
-
-    boolean isAppliances() {
-        return this.tag == "APPLIANCES";
-    }
-
-    boolean isFurniture() {
-        return this.tag == "FURNITURE";
-    }
-
-    boolean isBooks() {
-        return this.tag == "BOOKS";
-    }
-
-    boolean isOthers() {
-        return this.tag == "OTHERS";
-    }*/
 
     public String getItemTitle() {
         return this.itemTitle;
@@ -96,12 +78,13 @@ public class Item {
     }
 
     public double getItemPrice() {
-        return this.itemPrice;
+        DecimalFormat decimalFormat = new DecimalFormat("0.00");
+        return Double.parseDouble(decimalFormat.format(this.itemPrice));
     }
 
-    public void setItemPrice(double price) {
-        itemPrice = price;
-    }
+    public double getCategory() {return this.category; }
+
+    public String getPost_id() { return this.post_id; }
 
     public String getItemPicture() {
         return this.itemPicture;

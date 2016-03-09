@@ -14,7 +14,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/horizontalScrollView2"
-        android:scrollbars="none">
+        android:scrollbars="none"
+        android:layout_marginBottom="20dp">
 
         <LinearLayout android:id="@+id/LinearLayout02" android:layout_height="wrap_content" android:layout_width="match_parent"
             android:layout_marginBottom="0dp">
@@ -91,7 +92,7 @@
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
+        android:layout_below="@+id/horizontalScrollView2"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
@@ -102,7 +103,7 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="fill_parent"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="NEW ITEMS"
                 android:id="@+id/textView"
@@ -116,8 +117,10 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Update"
-                android:id="@+id/update_feed" />
+                android:text="Refresh"
+                android:id="@+id/update_feed"
+                android:textColor="@color/white"
+                android:background="@null" />
         </LinearLayout>
 
         <HorizontalScrollView
@@ -136,101 +139,16 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/new_items_feed">
 
-                <ImageView
+                <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/imageView"
-                    android:src="@drawable/thing"
-                    android:layout_marginRight="8dp" />
+                    android:layout_height="fill_parent"
+                    android:text="Please wait..."
+                    android:id="@+id/textView2"
+                    android:textColor="@color/white" />
 
             </LinearLayout>
         </HorizontalScrollView>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="POPULAR ITEMS"
-            android:id="@+id/textView2"
-            android:textColor="#FFFFFF"
-            android:layout_marginBottom="15dp"
-            android:layout_margin="20dp"
-            android:textSize="25sp"
-            android:textStyle="bold" />
-
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:id="@+id/horizontalScrollView"
-            android:scrollbars="none"
-            android:layout_marginBottom="30dp"
-            android:layout_margin="20dp">
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/imageView9"
-                    android:src="@drawable/thing"
-                    android:layout_marginRight="8dp" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/imageView10"
-                    android:src="@drawable/thing"
-                    android:layout_marginRight="8dp" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/imageView11"
-                    android:src="@drawable/thing"
-                    android:layout_marginRight="8dp" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/imageView12"
-                    android:src="@drawable/thing"
-                    android:layout_marginRight="8dp" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/imageView13"
-                    android:src="@drawable/thing"
-                    android:layout_marginRight="8dp" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/imageView14"
-                    android:src="@drawable/thing"
-                    android:layout_marginRight="8dp" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/imageView15"
-                    android:src="@drawable/thing"
-                    android:layout_marginRight="8dp" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/imageView16"
-                    android:src="@drawable/thing"
-                    android:layout_marginRight="8dp" />
-            </LinearLayout>
-        </HorizontalScrollView>
     </LinearLayout>
 
     <LinearLayout

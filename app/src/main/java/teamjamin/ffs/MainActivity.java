@@ -1,32 +1,47 @@
 package teamjamin.ffs;
 
-import android.app.SearchManager;
-import android.content.Context;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutCompat;
-import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.Query;
+import com.firebase.client.ValueEventListener;
 
+import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class MainActivity extends BaseActivity {
 
     private ImageView imgBtn_home, imgBtn_chat, imgBtn_cart, imgBtn_sell, imgBtn_settings;
     private Button btn, update_btn;
+    private ArrayList<Item> item_list;
 
+
+    private Bitmap bm;
+    private Double _price;
 
     private View rootView;
+
+    private LinearLayout feed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,16 +56,18 @@ public class MainActivity extends BaseActivity {
         //Set nav drawer selected to first item in list
         //mNavigationView.getMenu().getItem(0).setChecked(true);
 
-        Firebase ref = new Firebase("httpw://ffs.firebaseio.com/");
+        Firebase ref = new Firebase("https://ffs.firebaseio.com/");
+        item_list = new ArrayList<Item>();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+
+        feed = (LinearLayout) findViewById(R.id.new_items_feed);
 
         if(!Config.GUEST_LOGIN && ref.getAuth() == null) {
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);
         }
-
-//        else if (ref.getAuth() != null) {
-//            Toast.makeText(getApplicationContext(), "Welcome, " + ref.child("users").child(ref.getAuth().getUid()).child("firstName"), Toast.LENGTH_LONG).show();
-//        }
 
         imgBtn_home = (ImageView)findViewById(R.id.homeBtn);
         imgBtn_chat = (ImageView)findViewById(R.id.chatBtn);
@@ -63,24 +80,27 @@ public class MainActivity extends BaseActivity {
         update_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateNewItemsFeed();
+                feed.removeAllViewsInLayout();
+                item_list.clear();
+                getItemFromFireBase();
             }
         });
 
         imgBtn_home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, MainActivity.class);
-//                startActivity(intent);
-                return;
             }
         });
 
         imgBtn_chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, ChatActivity.class);
-                startActivity(intent);
+                if(Config.GUEST_LOGIN) {
+                    Toast.makeText(getApplicationContext(),"You must be logged in to access Chat. If you need to logout, access menu options above.", Toast.LENGTH_LONG).show();
+                } else {
+                    Intent intent = new Intent(MainActivity.this, ChatActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -112,18 +132,68 @@ public class MainActivity extends BaseActivity {
             }
         });
 
+        getItemFromFireBase();
     }
 
-    public void updateNewItemsFeed() {
-        LinearLayout feed = (LinearLayout) findViewById(R.id.new_items_feed);
+    private void getItemFromFireBase() {
 
+        Firebase ref = new Firebase("https://ffs.firebaseio.com/items/");
+
+        Query query = ref.orderByValue().limitToLast(5);
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+
+                feed.removeAllViewsInLayout();
+
+                for( DataSnapshot s : snapshot.getChildren()) {
+                    item_list.add(s.getValue(Item.class));
+                }
+
+                for( Item it: item_list) {
+                    addImageView(it);
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                System.out.println("The read failed: " + firebaseError.getMessage());
+            }
+        });
+    }
+
+    private void addImageView(Item item) {
         ImageView new_item = new ImageView(this);
-        LinearLayoutCompat.LayoutParams lp = new LinearLayoutCompat.LayoutParams(150, 150);
+        LinearLayoutCompat.LayoutParams lp = new LinearLayoutCompat.LayoutParams(250, 250);
         new_item.setLayoutParams(lp);
 
-        //new_item.setImageBitmap(bm);
-
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bm = DecodeImage.getImage(item.getItemPicture());
+        bm.compress(Bitmap.CompressFormat.JPEG, 25, stream);
+        new_item.setImageBitmap(bm);
         feed.addView(new_item);
+
+        final Item _item = item;
+
+        new_item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+                intent.putExtra("ITEM_TITLE", _item.getItemTitle());
+                intent.putExtra("ITEM_DESCRIPTION", _item.getItemDescription());
+                intent.putExtra("ITEM_PRICE", _item.getItemPrice());
+                intent.putExtra("ITEM_SELLER_EMAIL", _item.getSellerEmail());
+                intent.putExtra("ITEM_CATEGORY", _item.getCategory());
+
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bm = DecodeImage.getImage(_item.getItemPicture());
+                bm.compress(Bitmap.CompressFormat.JPEG, 25, stream);
+                byte[] bytes = stream.toByteArray();
+                intent.putExtra("ITEM_PICTURE", bytes);
+
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
