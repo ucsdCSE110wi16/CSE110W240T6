@@ -78,8 +78,7 @@ public class Item {
     }
 
     public double getItemPrice() {
-        DecimalFormat decimalFormat = new DecimalFormat("0.00");
-        return Double.parseDouble(decimalFormat.format(this.itemPrice));
+        return this.itemPrice;
     }
 
     public double getCategory() {return this.category; }

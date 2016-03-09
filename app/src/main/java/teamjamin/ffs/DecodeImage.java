@@ -22,8 +22,8 @@ public class DecodeImage {
         byte[] decodedString;
         Bitmap decodedByte;
 
-        decodedString = Base64.decode(post, Base64.DEFAULT);
-        decodedByte = decodeSampledBitmap(decodedString, 250, 250);
+        decodedString = Base64.decode(post, Base64.URL_SAFE);
+        decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 
         return decodedByte;
     }

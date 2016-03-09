@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.text.DecimalFormat;
@@ -25,6 +26,7 @@ public class DetailActivity  extends AppCompatActivity {
     private Button chat_btn, cart_btn;
     private Item item;
     private byte[] bytes;
+    private int position;
 
     private View rootView;
     private Toolbar toolbar;
@@ -40,6 +42,8 @@ public class DetailActivity  extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(extras.getString("ITEM_TITLE"));
+
+        position = extras.getInt("POSITION");
 
         itemImage = (ImageView) findViewById(R.id.item_picture);
         itemTitle = (TextView) findViewById(R.id.item_name);
@@ -61,7 +65,7 @@ public class DetailActivity  extends AppCompatActivity {
         itemSeller.setText(extras.getString("ITEM_SELLER_EMAIL"));
 
         item = new Item(extras.getString("ITEM_TITLE"), extras.getDouble("ITEM_PRICE"), extras.getString("ITEM_DESCRIPTION"),
-                encodeImage(bytes), extras.getString("ITEM_SELLER_EMAIL"), "", extras.getString("ITEM_CATEGORY"));
+                encodeImage(bytes), extras.getString("ITEM_SELLER_EMAIL"), "", itemCategory.getText().toString());
 
         chat_btn = (Button) findViewById(R.id.btn_chat);
         chat_btn.setOnClickListener(new View.OnClickListener() {
@@ -73,23 +77,35 @@ public class DetailActivity  extends AppCompatActivity {
         });
 
         cart_btn = (Button) findViewById(R.id.btn_cart);
-        cart_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Item _item = item;
-                byte[] b = bytes;
-                Intent intent = new Intent(DetailActivity.this, CartActivity.class);
-                intent.putExtra("ITEM_TITLE", _item.getItemTitle());
-                intent.putExtra("ITEM_DESCRIPTION", _item.getItemDescription());
-                intent.putExtra("ITEM_PRICE", _item.getItemPrice());
-                intent.putExtra("ITEM_SELLER_EMAIL", _item.getSellerEmail());
-                intent.putExtra("ITEM_CATEGORY", getCate(_item.getCategory()));
-                intent.putExtra("ITEM_PICTURE", b);
+        if(!extras.getBoolean("ADDED")) {
+            cart_btn.setText("Add to Cart");
 
-                startActivity(intent);
-            }
-        });
-
+            cart_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!Config.cart_item_list.contains(item)) {
+                        Config.cart_item_list.add(item);
+                        Intent intent = new Intent(DetailActivity.this, CartActivity.class);
+                        intent.putExtra("ADDED", true);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "This item is already in your cart.", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(DetailActivity.this, CartActivity.class);
+                        intent.putExtra("ADDED", true);
+                        startActivity(intent);
+                    }
+                }
+            });
+        } else {
+            cart_btn.setText("Remove from Cart");
+            cart_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Config.cart_item_list.remove(position);
+                    Toast.makeText(getApplicationContext(), "Item was removed from cart", Toast.LENGTH_LONG).show();
+                }
+            });
+        }
 
     }
 
@@ -100,7 +116,7 @@ public class DetailActivity  extends AppCompatActivity {
         ByteArrayOutputStream baostream = new ByteArrayOutputStream();
 
         // Compress the image to reduce the image size making uploading easier
-        bitmap.compress(Bitmap.CompressFormat.PNG, 50, baostream);
+        bitmap.compress(Bitmap.CompressFormat.PNG, 0, baostream);
         byte[] byteArray = baostream.toByteArray();
 
         String encodedString = Base64.encodeToString(byteArray, 0);

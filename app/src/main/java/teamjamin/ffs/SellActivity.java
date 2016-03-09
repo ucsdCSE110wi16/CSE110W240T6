@@ -289,7 +289,7 @@ public class SellActivity extends AppCompatActivity {
                 if (resultCode == RESULT_OK) {
                     // Image was captured successfully! Set it into ImageView for preview
                     BitmapFactory.Options options = new BitmapFactory.Options();
-                    options.inSampleSize = 2;
+                    options.inSampleSize = 5;
                     bitmap = BitmapFactory.decodeFile(fileUri.getPath(), options);
                     imgPath = fileUri.getPath();
                     img_item = (ImageView) findViewById(R.id.itemPicture);
@@ -323,7 +323,7 @@ public class SellActivity extends AppCompatActivity {
 
                 BitmapFactory.Options options = null;
                 options = new BitmapFactory.Options();
-                options.inSampleSize = 2;
+                options.inSampleSize = 5;
 
                 // Set the image in the ImageView to preview
                 img_item.setImageBitmap(BitmapFactory.decodeFile(imgPath, options));
@@ -424,15 +424,16 @@ public class SellActivity extends AppCompatActivity {
             protected String doInBackground(Void... params) {
                 BitmapFactory.Options options = null;
                 options = new BitmapFactory.Options();
+                options.inSampleSize = 6;
                 bitmap = BitmapFactory.decodeFile(imgPath, options);
                 ByteArrayOutputStream baostream = new ByteArrayOutputStream();
 
                 // Compress the image to reduce the image size making uploading easier
-                bitmap.compress(Bitmap.CompressFormat.PNG, 50, baostream);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 25, baostream);
                 byte[] byteArray = baostream.toByteArray();
 
                 // Encode image to string
-                encodedString = Base64.encodeToString(byteArray, 0);
+                encodedString = Base64.encodeToString(byteArray, 25);
                 return "";
             }
 
@@ -470,9 +471,9 @@ public class SellActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Upload successful.", Toast.LENGTH_LONG).show();
                 }
                 progressDialog.dismiss();
+                finish();
           }
         }.execute(null, null, null);
-        return;
     }
 
     private boolean validate() {

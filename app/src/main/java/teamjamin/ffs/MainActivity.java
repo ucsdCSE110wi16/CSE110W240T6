@@ -30,7 +30,6 @@ import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MainActivity extends BaseActivity {
-
     private ImageView imgBtn_home, imgBtn_chat, imgBtn_cart, imgBtn_sell, imgBtn_settings;
     private Button btn, update_btn;
     private ArrayList<Item> item_list;
@@ -82,7 +81,10 @@ public class MainActivity extends BaseActivity {
             public void onClick(View v) {
                 feed.removeAllViewsInLayout();
                 item_list.clear();
-                getItemFromFireBase();
+                Firebase nref = new Firebase("https://ffs.firebaseio.com/items/");
+
+                Query query = nref.orderByValue().limitToLast(5);
+                getItemFromFireBase(query);
             }
         });
 
@@ -131,23 +133,25 @@ public class MainActivity extends BaseActivity {
                 }
             }
         });
-
-        getItemFromFireBase();
-    }
-
-    private void getItemFromFireBase() {
-
-        Firebase ref = new Firebase("https://ffs.firebaseio.com/items/");
+        ref = new Firebase("https://ffs.firebaseio.com/items/");
 
         Query query = ref.orderByValue().limitToLast(5);
-        query.addValueEventListener(new ValueEventListener() {
+        getItemFromFireBase( query);
+
+    }
+
+    private void getItemFromFireBase(Query q) {
+
+
+        q.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
 
                 feed.removeAllViewsInLayout();
+                item_list.clear();
 
                 for( DataSnapshot s : snapshot.getChildren()) {
-                    item_list.add(s.getValue(Item.class));
+                    item_list.add( 0, s.getValue(Item.class));
                 }
 
                 for( Item it: item_list) {
@@ -169,7 +173,8 @@ public class MainActivity extends BaseActivity {
 
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bm = DecodeImage.getImage(item.getItemPicture());
-        bm.compress(Bitmap.CompressFormat.JPEG, 25, stream);
+       // Toast.makeText(getApplicationContext(), item.getItemPicture(), Toast.LENGTH_LONG).show();
+        bm.compress(Bitmap.CompressFormat.JPEG, 0, stream);
         new_item.setImageBitmap(bm);
         feed.addView(new_item);
 
@@ -187,7 +192,7 @@ public class MainActivity extends BaseActivity {
 
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 bm = DecodeImage.getImage(_item.getItemPicture());
-                bm.compress(Bitmap.CompressFormat.JPEG, 25, stream);
+                bm.compress(Bitmap.CompressFormat.JPEG, 0, stream);
                 byte[] bytes = stream.toByteArray();
                 intent.putExtra("ITEM_PICTURE", bytes);
 
