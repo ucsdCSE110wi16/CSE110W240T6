@@ -31,6 +31,13 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.not;
 
+/**
+ * Created by nicolesakamoto on 3/4/16.
+ *
+ * NOTE: Run this test file separately from all other test files.
+ *
+ */
+
 @RunWith(AndroidJUnit4.class)
 public class SellActivityTest {
 
@@ -59,6 +66,9 @@ public class SellActivityTest {
 
     @Test
     public void testNoPictureFailure() {
+//        Intent intent = new Intent();
+//        sellActivity.launchActivity(intent);
+
         onView(withId(R.id.input_item_title)).perform(replaceText(ITEM_VALID_TITLE));
         onView(withId(R.id.input_item_price)).perform(replaceText(ITEM_VALID_PRICE));
         onView(withId(R.id.input_item_description)).perform(replaceText(ITEM_VALID_DESCRIPTION));
@@ -72,6 +82,8 @@ public class SellActivityTest {
 
     @Test
     public void testNoTitleFailure() {
+//        Intent intent = new Intent();
+//        sellActivity.launchActivity(intent);
 
         Instrumentation.ActivityResult result = buildResultForCameraIntent();
 
@@ -91,6 +103,9 @@ public class SellActivityTest {
 
     @Test
     public void testNoPriceFailure() {
+//        Intent intent = new Intent();
+//        sellActivity.launchActivity(intent);
+
         Instrumentation.ActivityResult result = buildResultForCameraIntent();
 
         // Stub out the Camera. When an intent is sent to the Camera, this tells Espresso to respond
