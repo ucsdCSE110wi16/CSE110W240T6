@@ -50,7 +50,7 @@ public class ChatTest{
     @Test
     public void recieveMessage(){
         sendMessageTest.sendMessage();
-        onView(withID(R.id.))
+        onView(withId(R.id.chat_recycler_view))
                 .check(matches(withText(testMessage)));
     }
 
@@ -67,23 +67,25 @@ class SendMessageTest{
 
     @Before
     public void setUser() {
+        /* sets up test by loging in and navigating to chat screen*/
         String email = "testSender@test.com";
         String password = "password";
         NavigateToChatTest chatTestSetup = new NavigateToChatTest();
         chatTestSetup.login(email, password);
         chatTestSetup.NavigatetoChat();
-
     }
 
     @Test
     public void sendMessage(){
+
+        /*asks for message to be sent*/
         onView(withId(R.id.chat_user_message))
                 .perform(typeText(testMessage), closeSoftKeyboard());
         onView(withId(R.id.sendUserMessage))
                 .perform(click());
 
-        //check to see if message is displayed
-        onView(withId(R.id.))
+        /*check to see if message is displayed*/
+        onView(withId(R.id.chat_recycler_view))
                 .check(matches(withText(testMessage)));
     }
 
@@ -97,6 +99,7 @@ class NavigateToChatTest{
 
     @Before
     public void login(String email, String password){
+        /*logs into the application with specified user, assumes succesful login*/
         onView(withId(R.id.input_email)).perform(typeText(email));
         onView(withId(R.id.input_password)).perform(typeText(password));
         onView(withId(R.id.btn_login)).perform(click());
@@ -105,8 +108,10 @@ class NavigateToChatTest{
 
     @Test
     public void NavigatetoChat(){
-        onView(withId(R.id.))
+        /* attempts to navigate to chat*/
+        onView(withId(R.id.chatBtn))
                 .perform(click());
+        /* checks to see if on login screen*/
         onView(withId(R.id.chat_user_message))
                 .check((ViewAssertion) isDisplayed());
     }
