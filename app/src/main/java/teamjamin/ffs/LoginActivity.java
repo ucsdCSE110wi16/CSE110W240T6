@@ -26,32 +26,28 @@ public class LoginActivity extends AppCompatActivity {
     private static final int REQUEST_SIGNUP = 0;
     private static final int REQUEST_GUEST_LOGIN = 0;
 
-   // private String uid;
+    private EditText _emailText, _passwordText;
+    private Button _loginButton;
+    private TextView _guestLogin, _signupLink;
 
-    @Bind(R.id.input_email)
-    EditText _emailText;
-    @Bind(R.id.input_password)
-    EditText _passwordText;
-    @Bind(R.id.btn_login)
-    Button _loginButton;
-    @Bind(R.id.link_signup)
-    TextView _signupLink;
-    @Bind(R.id.guest_login)
-    TextView _guestLogin;
-    //@Bind(R.id.facebook_login) TextView _facebookLogin;
+    // private String uid;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        ButterKnife.bind(this);
 
-        //Added this here for Testing
+        //***for Espresso testing. Comment this out when running app. Uncomment for testing***
         Firebase.setAndroidContext(this);
+
+        _emailText = (EditText) findViewById(R.id.input_email);
+        _passwordText = (EditText) findViewById(R.id.input_password);
+        _loginButton = (Button) findViewById(R.id.btn_login);
+        _signupLink = (TextView) findViewById(R.id.link_signup);
+        _guestLogin = (TextView) findViewById(R.id.guest_login);
 
         // Set up login button
         _loginButton.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 login();
@@ -70,38 +66,19 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         // Set up guest login
-        // By default, this fills in the info with guest info
         _guestLogin.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 // Start MainActivity
-                // will loop back to login screen
                 Config.GUEST_LOGIN = true;
                 onLoginSuccess();
             }
         });
-
-        // Set up facebook login button (might have to change later with facebook integration
-        // By default, this fills in the info with guest info
-        /*_facebookLogin.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // Start MainActivity
-                // Does same thing as guest login for now until facebook integration is done
-                _emailText.setText("guest@guest.com");
-                _passwordText.setText("password");
-                login();
-                Log.d(TAG, "Facebook Login");
-//                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-//                startActivityForResult(intent, REQUEST_GUEST_LOGIN);
-            }
-        });*/
     }
 
     /**
-     * Method to perform login and authetication logic
+     * Method to perform login and authentication logic
      */
     public void login() {
         Log.d(TAG, "Login");
@@ -141,7 +118,7 @@ public class LoginActivity extends AppCompatActivity {
                         new Runnable() {
                             public void run() {
                                 // On complete call either onLoginSuccess or onLoginFailed
-
+                                Config.GUEST_LOGIN = false;
                                 onLoginSuccess();
                             }
                         }, 1500);
@@ -155,6 +132,7 @@ public class LoginActivity extends AppCompatActivity {
                             public void run() {
                                 // On complete call either onLoginSuccess or onLoginFailed
                                 onLoginFailed();
+                                Config.GUEST_LOGIN = false;
 
                                 switch (fError.getCode()) {
                                     case FirebaseError.USER_DOES_NOT_EXIST:
@@ -203,7 +181,6 @@ public class LoginActivity extends AppCompatActivity {
      */
     public void onLoginSuccess() {
         _loginButton.setEnabled(true);
-        Config.GUEST_LOGIN = false;
         finish();
     }
 

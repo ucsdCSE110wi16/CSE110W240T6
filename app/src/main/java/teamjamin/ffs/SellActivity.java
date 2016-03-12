@@ -86,6 +86,9 @@ public class SellActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //***for Espresso testing. Comment this out when running app. Uncomment for testing***
+        Firebase.setAndroidContext(this);
+
         setContentView(R.layout.activity_sell);
         rootView = findViewById(R.id.activity_sell_container);
 
@@ -138,9 +141,13 @@ public class SellActivity extends AppCompatActivity {
             btn_upload.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    validate();
-                    posted = false;
-                    uploadItem(v);
+                    boolean check = validate();
+                    if(check){
+                        posted = false;
+                        uploadItem(v);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Please fill in all missing fields.", Toast.LENGTH_LONG).show();
+                    }
                 }
             });
         } else {
@@ -348,13 +355,6 @@ public class SellActivity extends AppCompatActivity {
             progressDialog.show();
             // Convert image to String using Base64
             encodeImageToString();
-            btn_upload.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // check values
-                    validate();
-                }
-            });
         }
         // Image IS NOT selected from gallery
         else {
@@ -416,7 +416,7 @@ public class SellActivity extends AppCompatActivity {
 
     // AsyncTask to convert image to string
     public void encodeImageToString() {
-       new AsyncTask<Void, Void, String>() {
+        new AsyncTask<Void, Void, String>() {
 
             protected void onPreExecute() {
             }
@@ -444,8 +444,6 @@ public class SellActivity extends AppCompatActivity {
                 if( posted == false) {
 
                     // check values
-                    validate();
-
                     encodeImageToString();
 
                     Firebase itemRef = new Firebase("https://ffs.firebaseio.com/items/");
@@ -472,7 +470,7 @@ public class SellActivity extends AppCompatActivity {
                 }
                 progressDialog.dismiss();
                 finish();
-          }
+            }
         }.execute(null, null, null);
     }
 
@@ -495,7 +493,7 @@ public class SellActivity extends AppCompatActivity {
         }
 
         // Check if title of item is entered.
-        if(itemTitle.isEmpty()) {
+        if(itemTitle.isEmpty() || itemTitle == "") {
             item_title.setError("Please put a name for your product or service.");
             validate = false;
         } else {
@@ -523,7 +521,7 @@ public class SellActivity extends AppCompatActivity {
         }
 
         if(tagIDs.isEmpty()) {
-           Toast.makeText(getApplicationContext(), "You must select a tag before uploading.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "You must select a tag before uploading.", Toast.LENGTH_LONG).show();
             validate = false;
         }
         return validate;

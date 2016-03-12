@@ -47,7 +47,7 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         //setup firebase on android
-        Firebase.setAndroidContext(this);
+        Firebase.setAndroidContext(getApplicationContext());
 
         setContentView(R.layout.activity_main);
         rootView = findViewById(R.id.activity_main_container);
@@ -117,8 +117,12 @@ public class MainActivity extends BaseActivity {
         imgBtn_sell.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, SellActivity.class);
-                startActivity(intent);
+                if(Config.GUEST_LOGIN) {
+                    Toast.makeText(getApplicationContext(), "You must be logged in to sell something. If you need to logout, access menu options above.", Toast.LENGTH_LONG).show();
+                } else {
+                    Intent intent = new Intent(MainActivity.this, SellActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 

@@ -6,6 +6,7 @@
 //import android.support.test.rule.ActivityTestRule;
 //import android.support.test.runner.AndroidJUnit4;
 //
+//import org.junit.Before;
 //import org.junit.Rule;
 //import org.junit.Test;
 //import org.junit.runner.RunWith;
@@ -25,17 +26,15 @@
 //
 //public class ChatActivityTest {
 //    @Rule
-//    public final ActivityTestRule<ChatFunction> chat = new ActivityTestRule<>(ChatFunction.class);
+//    public final ActivityTestRule<ChatFunction> chat =
+//            new ActivityTestRule<>(ChatFunction.class);
 //
 //    @Test
-//    public void testSend() {
-//        //onView(withId(R.id.chat_user_message)).perform(replaceText("Hello"));
-//        //onView(withId(R.id.sendUserMessage)).perform(click());
-//        //onView(withId(R.id.chat_recycler_view)).check(matches(withText("Hello")));
-//    }
-//
-//    @Test
-//    public void testReceive() {
-//
+//    public void testSendMessage() {
+//        onView(withId(R.id.chat_user_message)).check(matches(isDisplayed()));
+//                //perform(replaceText("Hello"));
+//        onView(withId(R.id.sendUserMessage)).check(matches(isDisplayed()));
+//                //perform(click());
+//        onView(withId(R.id.chat_recycler_view)).check(matches(withText("Hello")));
 //    }
 //}
